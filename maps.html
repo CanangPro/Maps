@@ -58,6 +58,39 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px sol
 
 .divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
 
+.map-wrapper {position: relative;border-radius: 12px;overflow: hidden;}
+#map {height: 360px;border-radius: 12px;border: 1px solid var(--border);width: 100%;}
+@media(min-width: 600px) { #map { height: 460px; } }
+.locate-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 400; /* Z-index 400 agar berada di atas layer peta Leaflet */
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  color: var(--text);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  transition: all 0.2s ease;
+}
+
+.locate-btn:hover {background: var(--surface2);border-color: var(--accent);}
+
+.locate-btn.loading {animation: pulse 1.5s infinite;}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(0.95); opacity: 0.7; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
 /* DAY */
 .day-section{padding:2rem 0 .5rem;scroll-margin-top:52px}
 .day-hdr{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem}
@@ -161,7 +194,10 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
         <button class="day-btn" onclick="filterMap('18',this)">18 Mei</button>
       </div>
     </div>
+
+    <div class="map-wrapper">
     <div id="map"></div>
+    <button id="locate-btn" class="locate-btn" onclick="locateUser()" title="Posisi Saya">📍</button>
     <div class="map-legend">
       <div class="leg-item"><div class="leg-dot" style="background:#4A7FB5"></div>Transit</div>
       <div class="leg-item"><div class="leg-dot" style="background:#D4813A"></div>Kegiatan Utama</div>
@@ -169,6 +205,7 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
       <div class="leg-item"><div class="leg-dot" style="background:#8B6BBF"></div>Konser</div>
       <div class="leg-item"><div class="leg-dot" style="background:#4A9B6F"></div>Kuliner / Free Time</div>
     </div>
+  </div>
   </div>
 
   <hr class="divider">
@@ -453,6 +490,59 @@ const map = L.map('map',{ center:[-6.25,106.82], zoom:11 });
 L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
   attribution:'&copy; OSM &copy; CARTO', maxZoom:19
 }).addTo(map);
+
+// Variabel untuk menyimpan marker posisi user
+let userLocMarker = null;
+let userLocCircle = null;
+
+function locateUser() {
+  const btn = document.getElementById('locate-btn');
+  btn.classList.add('loading');
+  
+  // Meminta Leaflet mencari lokasi dengan zoom level 15
+  map.locate({setView: true, maxZoom: 15, enableHighAccuracy: true});
+}
+
+// Event jika lokasi berhasil ditemukan
+map.on('locationfound', function(e) {
+  const btn = document.getElementById('locate-btn');
+  btn.classList.remove('loading');
+
+  const radius = e.accuracy / 2;
+
+  // Hapus marker lama jika user klik "Locate Me" lebih dari sekali
+  if (userLocMarker) {
+    map.removeLayer(userLocMarker);
+    map.removeLayer(userLocCircle);
+  }
+
+  // Buat marker biru solid (khas GPS)
+  userLocMarker = L.marker(e.latlng, {
+    icon: L.divIcon({
+      className: '',
+      html: `<div style="width:16px;height:16px;background:#4A7FB5;border-radius:50%;border:3px solid #fff;box-shadow:0 0 10px rgba(0,0,0,0.6)"></div>`,
+      iconSize: [16,16],
+      iconAnchor: [8,8]
+    })
+  }).addTo(map)
+    .bindPopup(`<div class="pop-name">Posisi Kamu</div><div class="pop-desc">Akurasi: ~${Math.round(radius)} meter</div>`)
+    .openPopup();
+
+  // Lingkaran akurasi
+  userLocCircle = L.circle(e.latlng, radius, {
+    color: '#4A7FB5',
+    fillColor: '#4A7FB5',
+    fillOpacity: 0.15,
+    weight: 1
+  }).addTo(map);
+});
+
+// Event jika akses lokasi ditolak / error
+map.on('locationerror', function(e) {
+  const btn = document.getElementById('locate-btn');
+  btn.classList.remove('loading');
+  alert("Gagal mendapatkan lokasi. Pastikan GPS aktif dan kamu memberikan izin akses lokasi ke browser.");
+});
 
 function makeIcon(type){
   const c = TYPE_CONFIG[type] || {color:'#888', emoji:'•'};
