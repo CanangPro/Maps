@@ -12,7 +12,7 @@
 :root{
   --bg:#0F0E0C;--surface:#1A1916;--surface2:#232118;--border:#2E2B24;
   --text:#F0EDE6;--muted:#8A8479;
-  --accent:#D4813A;--accent2:#C45B2A;
+  --accent:#D4813A;
   --green:#4A9B6F;--green-bg:#0F2018;
   --blue:#4A7FB5;--blue-bg:#0A1525;
   --purple:#8B6BBF;--purple-bg:#140F20;
@@ -23,7 +23,6 @@
 html{scroll-behavior:smooth}
 body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);font-weight:300;line-height:1.6;overflow-x:hidden}
 
-/* HERO */
 .hero{padding:3rem 1.25rem 2rem;max-width:700px;margin:0 auto;text-align:center}
 .hero-eye{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
 .hero h1{font-family:'Lora',serif;font-size:clamp(2rem,8vw,3.5rem);font-weight:700;line-height:1.1;margin-bottom:1rem}
@@ -31,7 +30,6 @@ body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--tex
 .hero-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;margin-top:1.25rem}
 .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);color:var(--muted);background:var(--surface)}
 
-/* NAV */
 nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px solid var(--border)}
 .nav-inner{display:flex;overflow-x:auto;scrollbar-width:none;max-width:900px;margin:0 auto;padding:0 1rem}
 .nav-inner::-webkit-scrollbar{display:none}
@@ -39,10 +37,9 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px sol
 .nav-tab:hover{color:var(--text)}
 .nav-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
 
-/* LAYOUT */
 .page-wrap{max-width:900px;margin:0 auto;padding:0 1.25rem 5rem}
 
-/* MAP SECTION */
+/* MAP */
 .map-section{margin:2rem 0}
 .map-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:8px}
 .section-title{font-family:'Lora',serif;font-size:1.1rem;font-weight:500}
@@ -52,27 +49,23 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px sol
 .day-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
 #map{height:360px;border-radius:12px;border:1px solid var(--border);overflow:hidden}
 @media(min-width:600px){#map{height:460px}}
-
-/* MAP LEGEND */
-.map-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.map-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
 .leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
 .leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
 
-/* DIVIDER */
 .divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
 
-/* DAY SECTION */
+/* DAY */
 .day-section{padding:2rem 0 .5rem;scroll-margin-top:52px}
 .day-hdr{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.25rem}
 .day-num{font-family:'Lora',serif;font-size:2.8rem;font-weight:700;line-height:1;color:var(--border);user-select:none;flex-shrink:0;min-width:50px}
 .day-badge{font-size:10px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
 .day-name{font-family:'Lora',serif;font-size:1.2rem;font-weight:500;line-height:1.2}
 
-/* SEGMENT LABEL */
 .seg-label{font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);padding:.6rem 0 .3rem 72px;border-top:1px solid var(--border)}
 
 /* TIMELINE */
-.t-row{display:grid;grid-template-columns:56px 20px 1fr;gap:0 10px;padding:8px 0;align-items:start}
+.t-row{display:grid;grid-template-columns:64px 20px 1fr;gap:0 10px;padding:8px 0;align-items:start}
 .t-time{font-size:10px;color:var(--muted);text-align:right;padding-top:4px;line-height:1.3;font-variant-numeric:tabular-nums}
 .t-spine{display:flex;flex-direction:column;align-items:center}
 .t-dot{width:8px;height:8px;border-radius:50%;margin-top:4px;flex-shrink:0}
@@ -82,24 +75,23 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px sol
 .t-meta{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin-top:4px}
 .t-note{font-size:11px;color:var(--muted)}
 
-/* TAGS */
 .tag{display:inline-flex;align-items:center;gap:3px;font-size:10px;font-weight:500;padding:2px 7px;border-radius:20px;white-space:nowrap}
 .tag-bus{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(74,127,181,.25)}
 .tag-krl{background:var(--blue-bg);color:var(--blue);border:1px solid rgba(74,127,181,.25)}
 .tag-mrt{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(139,107,191,.25)}
 .tag-ojol{background:var(--amber-bg);color:var(--amber);border:1px solid rgba(196,154,58,.25)}
+.tag-shuttle{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,155,111,.25)}
 .tag-walk{background:var(--surface2);color:var(--muted);border:1px solid var(--border)}
 .tag-hotel{background:var(--pink-bg);color:var(--pink);border:1px solid rgba(196,91,122,.25)}
 .tag-event{background:rgba(212,129,58,.1);color:var(--accent);border:1px solid rgba(212,129,58,.25)}
 .tag-konser{background:var(--purple-bg);color:var(--purple);border:1px solid rgba(139,107,191,.25)}
 .tag-green{background:var(--green-bg);color:var(--green);border:1px solid rgba(74,155,111,.25)}
 
-/* ALERTS */
-.alert-box{margin:6px 0 4px 86px;padding:8px 12px;font-size:11.5px;border-radius:0 6px 6px 0;line-height:1.5}
+.alert-box{margin:6px 0 4px 94px;padding:8px 12px;font-size:11.5px;border-radius:0 6px 6px 0;line-height:1.5}
 .alert-warn{background:rgba(196,90,74,.08);border-left:3px solid var(--red);color:#D4866A}
 .alert-info{background:rgba(74,127,181,.08);border-left:3px solid var(--blue);color:#7AAFD4}
 
-/* INFO GRID */
+/* INFO */
 .cards-grid{display:grid;grid-template-columns:1fr;gap:1px;background:var(--border);border:1px solid var(--border);border-radius:12px;overflow:hidden}
 @media(min-width:540px){.cards-grid{grid-template-columns:1fr 1fr}}
 .info-card{background:var(--surface);padding:1.25rem}
@@ -110,16 +102,15 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px sol
 .tr-tarif{font-size:11px;color:var(--muted)}
 .checklist-grid{display:grid;grid-template-columns:1fr}
 @media(min-width:480px){.checklist-grid{grid-template-columns:1fr 1fr}}
-.check-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;font-size:12px;transition:color .15s;user-select:none}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;font-size:12px;user-select:none}
 .check-item:nth-last-child(-n+2){border-bottom:none}
 .checkbox{width:14px;height:14px;border:1.5px solid var(--border);border-radius:3px;flex-shrink:0;margin-top:1px;transition:background .15s,border-color .15s;position:relative}
 .checkbox.done{background:var(--green);border-color:var(--green)}
 .checkbox.done::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:9px;color:#fff;font-weight:700}
 
-/* FOOTER */
 footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;font-size:11px;color:var(--muted)}
 
-/* LEAFLET CUSTOM */
+/* LEAFLET */
 .leaflet-popup-content-wrapper{background:var(--surface)!important;border:1px solid var(--border)!important;border-radius:8px!important;box-shadow:0 8px 32px rgba(0,0,0,.6)!important;color:var(--text)!important}
 .leaflet-popup-tip{background:var(--surface)!important}
 .leaflet-popup-content{margin:10px 14px!important;font-family:'IBM Plex Sans',sans-serif!important}
@@ -157,7 +148,7 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
 
 <div class="page-wrap">
 
-  <!-- ═══ MAP ═══ -->
+  <!-- MAP -->
   <div class="map-section" id="peta" style="scroll-margin-top:52px">
     <div class="map-header">
       <div class="section-title">Peta Perjalanan</div>
@@ -170,17 +161,17 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
     </div>
     <div id="map"></div>
     <div class="map-legend">
-      <div class="leg-item"><div class="leg-dot" style="background:#4A7FB5"></div> Transit / Transportasi</div>
-      <div class="leg-item"><div class="leg-dot" style="background:#D4813A"></div> Kegiatan Utama</div>
-      <div class="leg-item"><div class="leg-dot" style="background:#C45B7A"></div> Hotel</div>
-      <div class="leg-item"><div class="leg-dot" style="background:#8B6BBF"></div> Konser</div>
-      <div class="leg-item"><div class="leg-dot" style="background:#4A9B6F"></div> Kuliner / Free Time</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#4A7FB5"></div>Transit / KRL / TJ</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#D4813A"></div>Kegiatan Utama</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#C45B7A"></div>Hotel</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#8B6BBF"></div>Konser</div>
+      <div class="leg-item"><div class="leg-dot" style="background:#4A9B6F"></div>Kuliner / Free Time</div>
     </div>
   </div>
 
   <hr class="divider">
 
-  <!-- ═══ 15 MEI ═══ -->
+  <!-- 15 MEI -->
   <section class="day-section" id="hari-15">
     <div class="day-hdr">
       <div class="day-num">01</div>
@@ -192,7 +183,7 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
     <div class="t-row">
       <div class="t-time">20.00</div>
       <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
-      <div><div class="t-label"><strong>Naik bus 27Trans Ayani</strong></div><div class="t-meta"><span class="tag tag-bus">Bus 27Trans</span><span class="t-note">Terminal Ahmad Yani, Surabaya</span></div></div>
+      <div><div class="t-label"><strong>Naik bus 27Trans Ayani Pool</strong></div><div class="t-meta"><span class="tag tag-bus">Bus 27Trans</span><span class="t-note">Terminal A. Yani Pool, Surabaya</span></div></div>
     </div>
     <div class="t-row">
       <div class="t-time">Malam</div>
@@ -203,7 +194,7 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
 
   <hr class="divider">
 
-  <!-- ═══ 16 MEI ═══ -->
+  <!-- 16 MEI -->
   <section class="day-section" id="hari-16">
     <div class="day-hdr">
       <div class="day-num">02</div>
@@ -214,88 +205,196 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
     </div>
 
     <div class="seg-label">Pagi — dari terminal ke GBK</div>
-    <div class="t-row"><div class="t-time">09.00</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Tiba di Terminal Pulo Gebang</div><div class="t-meta"><span class="tag tag-bus">Turun 27Trans</span><span class="t-note">Bawa tas ransel/ringan</span></div></div></div>
-    <div class="t-row"><div class="t-time">09.00–09.45</div><div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div><div><div class="t-label">Sarapan — Kantin Pulo Gebang</div><div class="t-meta"><span class="tag tag-walk">Jalan kaki</span><span class="t-note">Di area terminal</span></div></div></div>
-    <div class="t-row"><div class="t-time">09.45</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Pulo Gebang → Kampung Melayu</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 11</span><span class="t-note">~30 menit</span></div></div></div>
-    <div class="t-row"><div class="t-time">10.20</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Kampung Melayu → Monas/Sarinah</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 5C</span><span class="t-note">~30 menit</span></div></div></div>
-    <div class="t-row"><div class="t-time">10.50</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Monas/Sarinah → GBK/Senayan</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 1</span><span class="t-note">Turun Halte Senayan Bank DKI</span></div></div></div>
+    <div class="t-row">
+      <div class="t-time">09.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Tiba di Terminal Pulo Gebang</div><div class="t-meta"><span class="tag tag-bus">Turun 27Trans</span><span class="t-note">Bawa tas ransel/ringan</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">09.00–09.45</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Sarapan — Kantin Pulo Gebang</div><div class="t-meta"><span class="tag tag-walk">Jalan kaki</span><span class="t-note">Di area terminal</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">09.45</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Pulo Gebang → Kampung Melayu</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 11</span><span class="t-note">~30 menit</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">10.20</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Kampung Melayu → Monas/Sarinah</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 5C</span><span class="t-note">~30 menit</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">10.50</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Monas/Sarinah → GBK/Senayan</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 1</span><span class="t-note">Turun Halte Senayan Bank DKI</span></div></div>
+    </div>
 
     <div class="seg-label">Siang — redeem & makan</div>
-    <div class="t-row"><div class="t-time">11.20–13.00</div><div class="t-spine"><div class="t-dot" style="background:var(--accent)"></div><div class="t-conn"></div></div><div><div class="t-label"><strong>Redeem tiket di GBK</strong></div><div class="t-meta"><span class="tag tag-event">Keperluan utama</span><span class="t-note">Sambil bawa tas ransel</span></div></div></div>
-    <div class="t-row"><div class="t-time">13.00–13.45</div><div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div><div><div class="t-label">Makan siang — Restoran Ikan Tude Manado</div><div class="t-meta"><span class="t-note">Sekitar Senayan/GBK</span></div></div></div>
-    <div class="t-row"><div class="t-time">13.45</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">GBK → Studio One Thamrin</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 1</span><span class="t-note">Halte Senayan → Halte Thamrin · ~20 mnt</span></div></div></div>
+    <div class="t-row">
+      <div class="t-time">11.20–13.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--accent)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label"><strong>Redeem tiket di GBK</strong></div><div class="t-meta"><span class="tag tag-event">Keperluan utama</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">13.00–13.45</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Makan siang</div><div class="t-meta"><span class="t-note">Sekitar Senayan / GBK</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">13.45</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">GBK → Studio One Thamrin</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 1</span><span class="t-note">Halte Senayan → Halte Thamrin · ~20 mnt</span></div></div>
+    </div>
 
     <div class="seg-label">Sore — check in & konser</div>
-    <div class="t-row"><div class="t-time">14.00–15.30</div><div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div><div class="t-conn"></div></div><div><div class="t-label"><strong>Check in hotel + taruh tas</strong></div><div class="t-meta"><span class="tag tag-hotel">Studio One Thamrin</span><span class="t-note">Bebersih & siap konser</span></div></div></div>
-    <div class="t-row"><div class="t-time">15.30</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Hotel → Indonesia Arena</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 1</span><span class="t-note">Halte Thamrin → Halte Senayan · ~20 mnt</span></div></div></div>
-    <div class="t-row"><div class="t-time">16.00–21.00</div><div class="t-spine"><div class="t-dot" style="background:var(--purple)"></div><div class="t-conn"></div></div><div><div class="t-label"><strong>Nonton konser di Indonesia Arena</strong></div><div class="t-meta"><span class="tag tag-konser">Konser</span><span class="t-note">GBK, Senayan</span></div></div></div>
+    <div class="t-row">
+      <div class="t-time">14.00–15.30</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label"><strong>Check in hotel + taruh tas</strong></div><div class="t-meta"><span class="tag tag-hotel">Studio One Thamrin</span><span class="t-note">Bebersih & siap konser</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">15.30</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Hotel → Indonesia Arena</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 1</span><span class="t-note">Halte Thamrin → Halte Senayan · ~20 mnt</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">16.00–21.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--purple)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label"><strong>Nonton konser di Indonesia Arena</strong></div><div class="t-meta"><span class="tag tag-konser">Konser</span><span class="t-note">GBK, Senayan</span></div></div>
+    </div>
 
     <div class="seg-label">Malam — setelah konser</div>
-    <div class="t-row"><div class="t-time">21.00</div><div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div><div><div class="t-label">Makan malam — Ayam Penyet Sambel Ijo Ibu Ira</div><div class="t-meta"><span class="tag tag-ojol">Gojek/Grab</span><span class="t-note">Area sekitar hotel</span></div></div></div>
-    <div class="t-row"><div class="t-time">22.00+</div><div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div></div><div><div class="t-label">Kembali ke hotel & istirahat</div><div class="t-meta"><span class="tag tag-bus">TJ Koridor 1</span><span class="t-note">atau</span><span class="tag tag-ojol">Gojek/Grab</span></div></div></div>
+    <div class="t-row">
+      <div class="t-time">21.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Makan malam</div><div class="t-meta"><span class="tag tag-ojol">Gojek/Grab</span><span class="t-note">Area sekitar hotel</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">22.00+</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div></div>
+      <div><div class="t-label">Kembali ke hotel &amp; istirahat</div><div class="t-meta"><span class="tag tag-ojol">Gojek/Grab</span><span class="t-note">atau</span><span class="tag tag-bus">TJ Koridor 1</span></div></div>
+    </div>
     <div class="alert-box alert-warn">⚠ Setelah konser area GBK sangat ramai — prioritaskan Gojek/Grab untuk pulang lebih nyaman.</div>
   </section>
 
   <hr class="divider">
 
-  <!-- ═══ 17 MEI ═══ -->
+  <!-- 17 MEI -->
   <section class="day-section" id="hari-17">
     <div class="day-hdr">
       <div class="day-num">03</div>
       <div>
-        <div class="day-badge">Minggu, 17 Mei · Hari jauh</div>
-        <div class="day-name">ICE BSD &amp; Titip Hopeng</div>
+        <div class="day-badge">Minggu, 17 Mei · Seharian di BSD</div>
+        <div class="day-name">ICE BSD — Full Day</div>
       </div>
     </div>
 
-    <div class="seg-label">Subuh — ke BSD</div>
-    <div class="t-row"><div class="t-time">05.00</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Hotel → Stasiun Sudirman → Tanah Abang</div><div class="t-meta"><span class="tag tag-krl">KRL</span><span class="t-note">Naik dari Stasiun Sudirman</span></div></div></div>
-    <div class="t-row"><div class="t-time">05.30</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Tanah Abang → Cisauk</div><div class="t-meta"><span class="tag tag-krl">KRL Rangkasbitung</span><span class="t-note">Turun Stasiun Cisauk · ~50–60 mnt</span></div></div></div>
-    <div class="t-row"><div class="t-time">07.00</div><div class="t-spine"><div class="t-dot" style="background:var(--amber)"></div><div class="t-conn"></div></div><div><div class="t-label">Cisauk → ICE BSD</div><div class="t-meta"><span class="tag tag-ojol">Gojek/Grab</span><span class="t-note">~15 menit dari Stasiun Cisauk</span></div></div></div>
+    <div class="seg-label">Subuh — berangkat ke BSD</div>
+    <div class="t-row">
+      <div class="t-time">05.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Hotel → Stasiun Sudirman → Tanah Abang</div><div class="t-meta"><span class="tag tag-krl">KRL Cikarang</span><span class="t-note">Naik dari Stasiun Sudirman</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">05.30</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Tanah Abang → Cisauk</div><div class="t-meta"><span class="tag tag-krl">KRL Rangkasbitung</span><span class="t-note">Turun Stasiun Cisauk · ~50–60 mnt</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">07.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Cisauk → ICE BSD</div><div class="t-meta"><span class="tag tag-shuttle">Shuttle Bus</span><span class="t-note">Dari Stasiun Cisauk</span></div></div>
+    </div>
 
-    <div class="seg-label">Pagi–Siang — di BSD</div>
-    <div class="t-row"><div class="t-time">07.30–09.00</div><div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div><div><div class="t-label">Makan pagi — Warung ICE BSD</div><div class="t-meta"><span class="t-note">Di area ICE BSD</span></div></div></div>
-    <div class="t-row"><div class="t-time">09.00–13.00</div><div class="t-spine"><div class="t-dot" style="background:var(--accent)"></div><div class="t-conn"></div></div><div><div class="t-label"><strong>Kegiatan di ICE BSD</strong></div><div class="t-meta"><span class="tag tag-event">ICE BSD</span></div></div></div>
-    <div class="t-row"><div class="t-time">13.00–14.00</div><div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div><div><div class="t-label">Makan siang — CF Titip Hopeng</div><div class="t-meta"><span class="t-note">Di sekitar BSD/Serpong</span></div></div></div>
-    <div class="alert-box alert-info">ℹ Alternatif: TJ Koridor S11 dari Grogol → turun Teras Kota/Giant BSD → shuttle BSD Link (gratis) → The Breeze → shuttle ke ICE. Lebih hemat, lebih banyak transit.</div>
+    <div class="seg-label">Pagi–Malam — kegiatan di ICE BSD</div>
+    <div class="t-row">
+      <div class="t-time">09.00–19.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--accent)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label"><strong>Kegiatan di ICE BSD</strong></div><div class="t-meta"><span class="tag tag-event">ICE BSD</span><span class="t-note">Seharian penuh</span></div></div>
+    </div>
 
-    <div class="seg-label">Sore — balik Jakarta</div>
-    <div class="t-row"><div class="t-time">14.00</div><div class="t-spine"><div class="t-dot" style="background:var(--amber)"></div><div class="t-conn"></div></div><div><div class="t-label">ICE BSD → Cisauk</div><div class="t-meta"><span class="tag tag-ojol">Gojek/Grab</span><span class="t-note">ke Stasiun Cisauk</span></div></div></div>
-    <div class="t-row"><div class="t-time">14.30</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Cisauk → Tanah Abang → Sudirman</div><div class="t-meta"><span class="tag tag-krl">KRL</span><span class="t-note">Arah Tanah Abang · turun Sudirman · ~60 mnt</span></div></div></div>
-    <div class="t-row"><div class="t-time">16.00</div><div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div><div class="t-conn"></div></div><div><div class="t-label">Tiba di hotel — istirahat</div><div class="t-meta"><span class="tag tag-hotel">Studio One Thamrin</span></div></div></div>
-
-    <div class="seg-label">Malam — kuliner Jakarta</div>
-    <div class="t-row"><div class="t-time">19.00</div><div class="t-spine"><div class="t-dot" style="background:var(--amber)"></div><div class="t-conn"></div></div><div><div class="t-label">Keluar — Gojek PP</div><div class="t-meta"><span class="tag tag-ojol">Gojek/Grab</span></div></div></div>
-    <div class="t-row"><div class="t-time">23.00</div><div class="t-spine"><div class="t-dot" style="background:var(--green)"></div></div><div><div class="t-label">Makan malam — Kedai Zainal Fanani 1967</div><div class="t-meta"><span class="t-note">Kuliner malam Jakarta</span></div></div></div>
+    <div class="seg-label">Malam — pulang ke Jakarta</div>
+    <div class="t-row">
+      <div class="t-time">20.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">ICE BSD → Cisauk</div><div class="t-meta"><span class="tag tag-shuttle">Shuttle Bus</span><span class="t-note">Kembali ke Stasiun Cisauk</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">20.30</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Cisauk → Tanah Abang</div><div class="t-meta"><span class="tag tag-krl">KRL Rangkasbitung</span><span class="t-note">Arah Jakarta · ~50–60 mnt</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">21.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Tanah Abang → Sudirman</div><div class="t-meta"><span class="tag tag-krl">KRL</span><span class="t-note">Menuju area hotel</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">22.00+</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div></div>
+      <div><div class="t-label">Tiba di hotel — istirahat</div><div class="t-meta"><span class="tag tag-hotel">Studio One Thamrin</span></div></div>
+    </div>
   </section>
 
   <hr class="divider">
 
-  <!-- ═══ 18 MEI ═══ -->
+  <!-- 18 MEI -->
   <section class="day-section" id="hari-18">
     <div class="day-hdr">
       <div class="day-num">04</div>
       <div>
-        <div class="day-badge">Senin, 18 Mei · Sore balik Surabaya</div>
+        <div class="day-badge">Senin, 18 Mei · Pulang ke Surabaya</div>
         <div class="day-name">Free Time &amp; Pulang</div>
       </div>
     </div>
 
     <div class="seg-label">Pagi — check out</div>
-    <div class="t-row"><div class="t-time">09.00</div><div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div><div><div class="t-label">Sarapan — Bubur Landmark</div><div class="t-meta"><span class="tag tag-walk">Jalan kaki</span><span class="t-note">Dekat hotel/Thamrin</span></div></div></div>
-    <div class="t-row"><div class="t-time">10.00–11.00</div><div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div><div class="t-conn"></div></div><div><div class="t-label"><strong>Check out Studio One Thamrin</strong></div><div class="t-meta"><span class="tag tag-hotel">Hotel</span><span class="t-note">Pastikan semua barang terbawa</span></div></div></div>
+    <div class="t-row">
+      <div class="t-time">Pagi</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--green)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Sarapan</div><div class="t-meta"><span class="t-note">Sekitar hotel</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">10.00–11.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--pink)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label"><strong>Check out Studio One Thamrin</strong></div><div class="t-meta"><span class="tag tag-hotel">Hotel</span><span class="t-note">Pastikan semua barang terbawa</span></div></div>
+    </div>
 
     <div class="seg-label">Siang — jalan-jalan terakhir</div>
-    <div class="t-row"><div class="t-time">11.00–14.00</div><div class="t-spine"><div class="t-dot" style="background:var(--muted)"></div><div class="t-conn"></div></div><div><div class="t-label">Free time — Dukuh Atas BNI / PPJS</div><div class="t-meta"><span class="tag tag-mrt">MRT</span><span class="t-note">dari Thamrin ·</span><span class="tag tag-bus">27Trans/TJ</span><span class="t-note">ke PPJS</span></div></div></div>
+    <div class="t-row">
+      <div class="t-time">11.00–14.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--muted)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Free time</div><div class="t-meta"><span class="t-note">Sekitar hotel / jalan-jalan</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">14.30</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--purple)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Dukuh Atas BNI → Lebak Bulus</div><div class="t-meta"><span class="tag tag-mrt">MRT</span><span class="t-note">Naik MRT arah Lebak Bulus</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">~15.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label">Terminal Pondok Pinang</div><div class="t-meta"><span class="tag tag-ojol">Gojek/Grab</span><span class="t-note">Dari Lebak Bulus ke Terminal Pondok Pinang</span></div></div>
+    </div>
 
     <div class="seg-label">Sore — pulang</div>
-    <div class="t-row"><div class="t-time">15.00</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div><div><div class="t-label">Menuju titik keberangkatan</div><div class="t-meta"><span class="tag tag-bus">27Trans</span><span class="t-note">Kembali ke Surabaya</span></div></div></div>
-    <div class="t-row"><div class="t-time">Sore</div><div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div></div><div><div class="t-label">Berangkat pulang ke Surabaya</div><div class="t-meta"><span class="tag tag-bus">Bus 27Trans</span><span class="t-note">Estimasi tiba Surabaya besok pagi</span></div></div></div>
+    <div class="t-row">
+      <div class="t-time">15.00</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--blue)"></div><div class="t-conn"></div></div>
+      <div><div class="t-label"><strong>Berangkat pulang ke Surabaya</strong></div><div class="t-meta"><span class="tag tag-bus">Bus 27Trans</span><span class="t-note">Terminal Pondok Pinang → Surabaya</span></div></div>
+    </div>
+    <div class="t-row">
+      <div class="t-time">Esok pagi</div>
+      <div class="t-spine"><div class="t-dot" style="background:var(--border)"></div></div>
+      <div><div class="t-label">Estimasi tiba di Surabaya</div><div class="t-meta"><span class="t-note">Perjalanan semalam</span></div></div>
+    </div>
   </section>
 
   <hr class="divider">
 
-  <!-- ═══ INFO ═══ -->
+  <!-- INFO -->
   <section id="info" style="scroll-margin-top:52px;padding-top:1rem">
     <div class="cards-grid">
       <div class="info-card">
@@ -304,7 +403,7 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
         <div class="tr-row"><span class="tag tag-krl">KRL Commuter Line</span><span class="tr-tarif">~Rp 5.000/perjalanan</span></div>
         <div class="tr-row"><span class="tag tag-mrt">MRT Jakarta</span><span class="tr-tarif">Rp 3.000–14.000</span></div>
         <div class="tr-row"><span class="tag tag-ojol">Gojek / Grab</span><span class="tr-tarif">Sesuai tarif app</span></div>
-        <div class="tr-row"><span class="tag tag-green">BSD Link Shuttle</span><span class="tr-tarif">Gratis</span></div>
+        <div class="tr-row"><span class="tag tag-shuttle">Shuttle Bus BSD Link</span><span class="tr-tarif">Gratis</span></div>
         <div class="tr-row"><span class="tag tag-bus">Bus 27Trans</span><span class="tr-tarif">Cek app 27Trans</span></div>
       </div>
       <div class="info-card">
@@ -332,134 +431,126 @@ footer{max-width:900px;margin:0 auto;padding:2rem 1.25rem;border-top:1px solid v
 
 <footer>
   <span>Jakarta Trip · 15–18 Mei 2026</span>
-  <span>KRL · Transjakarta · MRT · Gojek/Grab</span>
+  <span>KRL · Transjakarta · MRT · Shuttle · Gojek/Grab</span>
 </footer>
 
 <script>
-// ─── CHECKLIST ────────────────────────────────────────────────────────────────
-function toggle(item) { item.querySelector('.checkbox').classList.toggle('done'); }
+function toggle(item){ item.querySelector('.checkbox').classList.toggle('done'); }
 
-// ─── MAP DATA ─────────────────────────────────────────────────────────────────
+// ─── MAP DATA (updated from PDF) ──────────────────────────────────────────────
 const PINS = [
   // 16 Mei
   { day:'16', lat:-6.1907, lng:106.9919, name:'Terminal Pulo Gebang', desc:'Tiba dari Surabaya · 09.00', type:'transit' },
-  { day:'16', lat:-6.2154, lng:106.8650, name:'Halte Kampung Melayu', desc:'Transit TJ Kor. 11 → 5C · 10.20', type:'transit' },
-  { day:'16', lat:-6.1867, lng:106.8240, name:'Monas / Sarinah', desc:'Transit TJ Kor. 5C → 1 · 10.50', type:'transit' },
+  { day:'16', lat:-6.2154, lng:106.8650, name:'Halte Kampung Melayu', desc:'Transit TJ Koridor 11 → 5C · 10.20', type:'transit' },
+  { day:'16', lat:-6.1867, lng:106.8240, name:'Monas / Sarinah', desc:'Transit TJ Koridor 5C → 1 · 10.50', type:'transit' },
   { day:'16', lat:-6.2182, lng:106.8018, name:'GBK — Redeem Tiket', desc:'11.20–13.00 · Keperluan utama', type:'event' },
   { day:'16', lat:-6.2088, lng:106.8228, name:'Studio One Thamrin', desc:'Check in 14.00 · Hotel', type:'hotel' },
   { day:'16', lat:-6.2181, lng:106.7995, name:'Indonesia Arena', desc:'Konser 16.00–21.00', type:'konser' },
   // 17 Mei
-  { day:'17', lat:-6.2088, lng:106.8228, name:'Studio One Thamrin', desc:'Start 05.00 · Menuju BSD', type:'hotel' },
-  { day:'17', lat:-6.2100, lng:106.8103, name:'Stasiun Sudirman', desc:'KRL menuju Tanah Abang · 05.00', type:'transit' },
-  { day:'17', lat:-6.2145, lng:106.8103, name:'Stasiun Tanah Abang', desc:'Transit KRL arah Rangkasbitung · 05.30', type:'transit' },
-  { day:'17', lat:-6.3219, lng:106.6468, name:'Stasiun Cisauk', desc:'Turun KRL · 07.00 · Lanjut ke ICE BSD', type:'transit' },
-  { day:'17', lat:-6.3011, lng:106.6537, name:'ICE BSD', desc:'Kegiatan 09.00–13.00', type:'event' },
+  { day:'17', lat:-6.2088, lng:106.8228, name:'Studio One Thamrin', desc:'Start 05.00 · Berangkat ke BSD', type:'hotel' },
+  { day:'17', lat:-6.2100, lng:106.8103, name:'Stasiun Sudirman', desc:'KRL Cikarang · 05.00', type:'transit' },
+  { day:'17', lat:-6.2145, lng:106.8103, name:'Stasiun Tanah Abang', desc:'Transit KRL Rangkasbitung · 05.30', type:'transit' },
+  { day:'17', lat:-6.3219, lng:106.6468, name:'Stasiun Cisauk', desc:'Turun KRL · 07.00 · Lanjut Shuttle ke ICE BSD', type:'transit' },
+  { day:'17', lat:-6.3011, lng:106.6537, name:'ICE BSD', desc:'Kegiatan seharian 09.00–19.00', type:'event' },
   // 18 Mei
   { day:'18', lat:-6.2088, lng:106.8228, name:'Studio One Thamrin', desc:'Check out 10.00–11.00', type:'hotel' },
-  { day:'18', lat:-6.2033, lng:106.8228, name:'Dukuh Atas BNI', desc:'Free time 11.00–14.00 · MRT', type:'free' },
+  { day:'18', lat:-6.2033, lng:106.8228, name:'Dukuh Atas BNI', desc:'Naik MRT arah Lebak Bulus · 14.30', type:'transit' },
+  { day:'18', lat:-6.2896, lng:106.7745, name:'Stasiun Lebak Bulus', desc:'Turun MRT · lanjut ke Terminal Pondok Pinang', type:'transit' },
+  { day:'18', lat:-6.2924, lng:106.7746, name:'Terminal Pondok Pinang', desc:'Berangkat ke Surabaya · 15.00', type:'transit' },
 ];
 
 const ROUTES = {
   '16': [
     [-6.1907,106.9919],[-6.2154,106.8650],[-6.1867,106.8240],
-    [-6.2182,106.8018],[-6.2088,106.8228],[-6.2181,106.7995]
+    [-6.2182,106.8018],[-6.2088,106.8228],[-6.2181,106.7995],
+    [-6.2088,106.8228]
   ],
   '17': [
     [-6.2088,106.8228],[-6.2100,106.8103],[-6.2145,106.8103],
-    [-6.3219,106.6468],[-6.3011,106.6537],[-6.3219,106.6468],
-    [-6.2145,106.8103],[-6.2088,106.8228]
+    [-6.3219,106.6468],[-6.3011,106.6537],
+    [-6.3219,106.6468],[-6.2145,106.8103],[-6.2088,106.8228]
   ],
-  '18': [[-6.2088,106.8228],[-6.2033,106.8228]]
+  '18': [
+    [-6.2088,106.8228],[-6.2033,106.8228],
+    [-6.2896,106.7745],[-6.2924,106.7746]
+  ]
 };
 
 const TYPE_CONFIG = {
-  transit: { color:'#4A7FB5', emoji:'🚌' },
-  event:   { color:'#D4813A', emoji:'📍' },
-  hotel:   { color:'#C45B7A', emoji:'🏨' },
-  konser:  { color:'#8B6BBF', emoji:'🎶' },
-  free:    { color:'#4A9B6F', emoji:'🌿' },
+  transit:{ color:'#4A7FB5', emoji:'🚌' },
+  event:  { color:'#D4813A', emoji:'📍' },
+  hotel:  { color:'#C45B7A', emoji:'🏨' },
+  konser: { color:'#8B6BBF', emoji:'🎶' },
+  free:   { color:'#4A9B6F', emoji:'🌿' },
 };
 
 const ROUTE_COLORS = { '16':'#D4813A', '17':'#4A7FB5', '18':'#4A9B6F' };
+const TYPE_LABELS  = { transit:'Transportasi', event:'Kegiatan', hotel:'Hotel', konser:'Konser', free:'Free Time' };
 
-// ─── MAP INIT ──────────────────────────────────────────────────────────────────
-const map = L.map('map', { center:[-6.25,106.82], zoom:11, zoomControl:true });
-
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+const map = L.map('map',{ center:[-6.25,106.82], zoom:11 });
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',{
   attribution:'&copy; OSM &copy; CARTO', maxZoom:19
 }).addTo(map);
 
-let activeMarkers = [], activePolylines = [];
+let activeMarkers=[], activePolylines=[];
 
-function makeIcon(type) {
-  const c = TYPE_CONFIG[type];
+function makeIcon(type){
+  const c=TYPE_CONFIG[type];
   return L.divIcon({
     className:'',
-    html:`<div style="width:32px;height:32px;border-radius:50%;background:${c.color};border:2.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.6);cursor:pointer">${c.emoji}</div>`,
-    iconSize:[32,32], iconAnchor:[16,16], popupAnchor:[0,-20]
+    html:`<div style="width:32px;height:32px;border-radius:50%;background:${c.color};border:2.5px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 3px 12px rgba(0,0,0,.6)">${c.emoji}</div>`,
+    iconSize:[32,32],iconAnchor:[16,16],popupAnchor:[0,-20]
   });
 }
 
-function makePopup(pin) {
-  const c = TYPE_CONFIG[pin.type];
-  const labels = {transit:'Transportasi',event:'Kegiatan',hotel:'Hotel',konser:'Konser',free:'Free Time'};
-  return `<div class="pop-name">${pin.name}</div>
-          <div class="pop-desc">${pin.desc}</div>
-          <span class="pop-tag" style="background:${c.color}22;color:${c.color};border:1px solid ${c.color}44">${labels[pin.type]}</span>`;
-}
+function renderMap(filter){
+  activeMarkers.forEach(m=>map.removeLayer(m));
+  activePolylines.forEach(p=>map.removeLayer(p));
+  activeMarkers=[];activePolylines=[];
 
-function renderMap(filter) {
-  activeMarkers.forEach(m => map.removeLayer(m));
-  activePolylines.forEach(p => map.removeLayer(p));
-  activeMarkers = []; activePolylines = [];
-
-  const days = filter === 'all' ? ['16','17','18'] : [filter];
-
-  // Routes — dashed polylines
-  days.forEach(d => {
-    if (!ROUTES[d]) return;
-    const poly = L.polyline(ROUTES[d], {
-      color: ROUTE_COLORS[d], weight:3, opacity:.7, dashArray:'7,6'
-    }).addTo(map);
-    activePolylines.push(poly);
+  const days=filter==='all'?['16','17','18']:[filter];
+  days.forEach(d=>{
+    if(!ROUTES[d])return;
+    const p=L.polyline(ROUTES[d],{color:ROUTE_COLORS[d],weight:3,opacity:.7,dashArray:'7,6'}).addTo(map);
+    activePolylines.push(p);
   });
 
-  // Markers
-  const pins = filter === 'all' ? PINS : PINS.filter(p => p.day === filter);
-  pins.forEach(pin => {
-    const m = L.marker([pin.lat,pin.lng], { icon:makeIcon(pin.type) })
+  const pins=filter==='all'?PINS:PINS.filter(p=>p.day===filter);
+  pins.forEach(pin=>{
+    const c=TYPE_CONFIG[pin.type];
+    const m=L.marker([pin.lat,pin.lng],{icon:makeIcon(pin.type)})
       .addTo(map)
-      .bindPopup(makePopup(pin));
+      .bindPopup(`<div class="pop-name">${pin.name}</div>
+                  <div class="pop-desc">${pin.desc}</div>
+                  <span class="pop-tag" style="background:${c.color}22;color:${c.color};border:1px solid ${c.color}44">${TYPE_LABELS[pin.type]}</span>`);
     activeMarkers.push(m);
   });
 
-  // Fit bounds
-  if (activeMarkers.length) {
+  if(activeMarkers.length){
     map.fitBounds(L.featureGroup(activeMarkers).getBounds().pad(0.18));
   }
 }
 
 renderMap('all');
 
-function filterMap(day, btn) {
-  document.querySelectorAll('.day-btn').forEach(b => b.classList.remove('active'));
+function filterMap(day,btn){
+  document.querySelectorAll('.day-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
   renderMap(day);
 }
 
-// ─── ACTIVE NAV ────────────────────────────────────────────────────────────────
-const tabs = document.querySelectorAll('.nav-tab');
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      tabs.forEach(t => t.classList.remove('active'));
-      const a = document.querySelector(`.nav-tab[href="#${e.target.id}"]`);
-      if (a) a.classList.add('active');
+// Active nav on scroll
+const tabs=document.querySelectorAll('.nav-tab');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      tabs.forEach(t=>t.classList.remove('active'));
+      const a=document.querySelector(`.nav-tab[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
     }
   });
-}, { rootMargin:'-30% 0px -60% 0px' });
-
-document.querySelectorAll('[id]').forEach(s => obs.observe(s));
+},{rootMargin:'-30% 0px -60% 0px'});
+document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
 </script>
 </body>
 </html>
