@@ -1,0 +1,37 @@
+{
+  "pins": [
+    { "day": "16", "lat": -6.1907, "lng": 106.9919, "name": "Terminal Pulo Gebang", "desc": "Tiba dari Surabaya · 09.00", "type": "transit" },
+    { "day": "16", "lat": -6.2154, "lng": 106.8650, "name": "Halte Kampung Melayu", "desc": "Transit TJ Koridor 11 → 5C · 10.20", "type": "transit" },
+    { "day": "16", "lat": -6.1867, "lng": 106.8240, "name": "Monas / Sarinah", "desc": "Transit TJ Koridor 5C → 1 · 10.50", "type": "transit" },
+    { "day": "16", "lat": -6.2182, "lng": 106.8018, "name": "GBK — Redeem Tiket", "desc": "11.20–13.00 · Keperluan utama", "type": "event" },
+    { "day": "16", "lat": -6.2088, "lng": 106.8228, "name": "Studio One Thamrin", "desc": "Check in 14.00 · Hotel", "type": "hotel" },
+    { "day": "16", "lat": -6.2181, "lng": 106.7995, "name": "Indonesia Arena", "desc": "Konser 16.00–21.00", "type": "konser" },
+    
+    { "day": "17", "lat": -6.2088, "lng": 106.8228, "name": "Studio One Thamrin", "desc": "Start 05.00 · Berangkat ke BSD", "type": "hotel" },
+    { "day": "17", "lat": -6.2100, "lng": 106.8103, "name": "Stasiun Sudirman", "desc": "KRL Cikarang · 05.00", "type": "transit" },
+    { "day": "17", "lat": -6.2145, "lng": 106.8103, "name": "Stasiun Tanah Abang", "desc": "Transit KRL Rangkasbitung · 05.30", "type": "transit" },
+    { "day": "17", "lat": -6.3219, "lng": 106.6468, "name": "Stasiun Cisauk", "desc": "Turun KRL · 07.00 · Lanjut Shuttle ke ICE BSD", "type": "transit" },
+    { "day": "17", "lat": -6.3011, "lng": 106.6537, "name": "ICE BSD", "desc": "Kegiatan seharian 09.00–19.00", "type": "event" },
+    
+    { "day": "18", "lat": -6.2088, "lng": 106.8228, "name": "Studio One Thamrin", "desc": "Check out 10.00–11.00", "type": "hotel" },
+    { "day": "18", "lat": -6.2033, "lng": 106.8228, "name": "Dukuh Atas BNI", "desc": "Naik MRT arah Lebak Bulus · 14.30", "type": "transit" },
+    { "day": "18", "lat": -6.2896, "lng": 106.7745, "name": "Stasiun Lebak Bulus", "desc": "Turun MRT · lanjut ke Terminal Pondok Pinang", "type": "transit" },
+    { "day": "18", "lat": -6.2924, "lng": 106.7746, "name": "Terminal Pondok Pinang", "desc": "Berangkat ke Surabaya · 15.00", "type": "transit" }
+  ],
+  "routes": {
+    "16": [
+      [-6.1907, 106.9919], [-6.2154, 106.8650], [-6.1867, 106.8240],
+      [-6.2182, 106.8018], [-6.2088, 106.8228], [-6.2181, 106.7995],
+      [-6.2088, 106.8228]
+    ],
+    "17": [
+      [-6.2088, 106.8228], [-6.2100, 106.8103], [-6.2145, 106.8103],
+      [-6.3219, 106.6468], [-6.3011, 106.6537],
+      [-6.3219, 106.6468], [-6.2145, 106.8103], [-6.2088, 106.8228]
+    ],
+    "18": [
+      [-6.2088, 106.8228], [-6.2033, 106.8228],
+      [-6.2896, 106.7745], [-6.2924, 106.7746]
+    ]
+  }
+}
