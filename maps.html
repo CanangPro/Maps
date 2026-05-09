@@ -63,27 +63,33 @@ nav{position:sticky;top:0;z-index:200;background:var(--bg);border-bottom:1px sol
 @media(min-width: 600px) { #map { height: 460px; } }
 .locate-btn {
   position: absolute;
-  bottom: 20px;
+  top: 20px;     
   right: 20px;
-  z-index: 400; /* Z-index 400 agar berada di atas layer peta Leaflet */
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
+  z-index: 400;  
+  width: 36px;   
+  height: 36px;
+  border-radius: 8px; 
   background: var(--surface);
   border: 2px solid var(--border);
   color: var(--text);
-  font-size: 18px;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.6);
   transition: all 0.2s ease;
 }
 
-.locate-btn:hover {background: var(--surface2);border-color: var(--accent);}
+.locate-btn:hover {
+  background: var(--surface2);
+  border-color: var(--accent);
+  color: var(--accent);
+}
 
-.locate-btn.loading {animation: pulse 1.5s infinite;}
+.locate-btn.loading {
+  animation: pulse 1.5s infinite;
+}
 
 @keyframes pulse {
   0% { transform: scale(1); opacity: 1; }
