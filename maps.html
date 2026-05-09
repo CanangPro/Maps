@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Jakarta Trip · 15–18 Mei 2026</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0F0E0C">
+<link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -527,6 +530,20 @@ const obs=new IntersectionObserver(entries=>{
 document.querySelectorAll('[id]').forEach(s=>obs.observe(s));
 
 initMapData();
+
+// Daftarkan Service Worker untuk PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js')
+      .then((registration) => {
+        console.log('ServiceWorker sukses didaftarkan dengan scope: ', registration.scope);
+      })
+      .catch((error) => {
+        console.error('ServiceWorker gagal:', error);
+      });
+  });
+}
+
 </script>
 </body>
 </html>
