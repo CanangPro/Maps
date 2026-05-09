@@ -559,7 +559,41 @@ function makeIcon(type){
   });
 }
 
-function renderMap(filter){
+// Fungsi untuk nge-hit OSRM API dan menggambar rute jalan raya
+async function drawLiveRoute(coords, color) {
+  // OSRM butuh format: longitude,latitude (dibalik dari Leaflet yang lat,lng)
+  const waypoints = coords.map(c => `${c[1]},${c[0]}`).join(';');
+  
+  // Endpoint OSRM Public (Driving profile)
+  const url = `https://router.project-osrm.org/route/v1/driving/${waypoints}?overview=full&geometries=geojson`;
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error('OSRM API Error');
+    
+    const data = await response.json();
+    const routeGeoJSON = data.routes[0].geometry;
+
+    // Gambar rute hasil API ke peta
+    const routeLayer = L.geoJSON(routeGeoJSON, {
+      style: { color: color, weight: 3, opacity: 0.8 }
+    }).addTo(map);
+    
+    activePolylines.push(routeLayer);
+  } catch (error) {
+    console.warn("Routing API gagal, fallback ke garis lurus:", error);
+    // Fallback: Gambar garis lurus putus-putus kalau offline/API error
+    const fallbackLine = L.polyline(coords, {
+      color: color, 
+      weight: 3, 
+      opacity: 0.7, 
+      dashArray: '7,6'
+    }).addTo(map);
+    activePolylines.push(fallbackLine);
+  }
+}
+
+function renderMap(filter) {
   if (!PINS.length) return;
 
   activeMarkers.forEach(m => map.removeLayer(m));
@@ -568,13 +602,14 @@ function renderMap(filter){
 
   const days = filter === 'all' ? ['16','17','18'] : [filter];
   
+  // 1. Eksekusi Penggambaran Rute (Sekarang pakai Async API OSRM)
   days.forEach(d => {
     if(ROUTES[d]) {
-        const p = L.polyline(ROUTES[d], {color:ROUTE_COLORS[d], weight:3, opacity:.7, dashArray:'7,6'}).addTo(map);
-        activePolylines.push(p);
+        drawLiveRoute(ROUTES[d], ROUTE_COLORS[d]);
     }
   });
 
+  // 2. Eksekusi Penggambaran Pin Marker
   const filteredPins = filter === 'all' ? PINS : PINS.filter(p => p.day === filter);
   filteredPins.forEach(pin => {
     const c = TYPE_CONFIG[pin.type];
@@ -586,7 +621,10 @@ function renderMap(filter){
     activeMarkers.push(m);
   });
 
-  if(activeMarkers.length) map.fitBounds(L.featureGroup(activeMarkers).getBounds().pad(0.18));
+  // Zoom fit bounds dengan sedikit delay agar menunggu data rute termuat
+  setTimeout(() => {
+    if(activeMarkers.length) map.fitBounds(L.featureGroup(activeMarkers).getBounds().pad(0.18));
+  }, 300);
 }
 
 // FETCH DATA DARI JSON
