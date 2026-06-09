@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Canang Cita — Minimalist Profile</title>
+  <meta name="description" content="Showcase your profile, projects, reviews, and moments in a sleek layout.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --background: #111111;
+      --foreground: #d1d1d1;
+      --card: #181818;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --primary: #eeeeee;
+      --primary-foreground: #111111;
+      --secondary: #222222;
+      --muted-foreground: #888888;
+      --accent-hover: rgba(255, 255, 255, 0.05);
+      --font-sans: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--background);
+      color: var(--foreground);
+      font-family: var(--font-sans);
+      line-height: 1.5;
+      padding: 5rem 1rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    main {
+      width: 100%;
+      max-width: 48rem; /* 768px */
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    /* Profile Card */
+    .profile-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    @media (min-width: 640px) {
+      .profile-card {
+        flex-direction: row;
+        align-items: flex-start;
+      }
+    }
+
+    .profile-avatar-container {
+      width: 8rem;
+      height: 8rem;
+      flex-shrink: 0;
+      border-radius: 1.25rem;
+      overflow: hidden;
+      border: 1px solid var(--card-border);
+    }
+
+    .profile-avatar {
+      width: 100%;
+      height: 100%;
+      object-cover: cover;
+      filter: grayscale(100%);
+      transition: filter 0.5s ease;
+    }
+
+    .profile-avatar-container:hover .profile-avatar {
+      filter: grayscale(0%);
+    }
+
+    .profile-info {
+      flex: 1;
+    }
+
+    .profile-header {
+      margin-bottom: 1rem;
+    }
+
+    .profile-name {
+      font-size: 1.875rem;
+      font-weight: 500;
+      color: var(--primary);
+      letter-spacing: -0.025em;
+      margin-bottom: 0.25rem;
+    }
+
+    .profile-role {
+      color: var(--muted-foreground);
+      font-size: 1rem;
+    }
+
+    .profile-bio {
+      color: var(--muted-foreground);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+      max-width: 32rem;
+    }
+
+    .profile-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      margin-bottom: 1.5rem;
+    }
+
+    .profile-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .social-links {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.25rem;
+      height: 2.25rem;
+      border-radius: 50%;
+      background: transparent;
+      border: none;
+      color: var(--muted-foreground);
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .social-btn:hover {
+      background: var(--accent-hover);
+      color: var(--primary);
+    }
+
+    /* Collapsible Sections */
+    .section-card {
+      background: var(--card);
+      border: 1px solid var(--card-border);
+      border-radius: 1.25rem;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+
+    .section-header {
+      width: 100%;
+      background: transparent;
+      border: none;
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      color: var(--primary);
+      font-family: inherit;
+    }
+
+    .section-header:hover {
+      background: var(--accent-hover);
+    }
+
+    .section-title-area {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-icon-wrapper {
+      padding: 0.5rem;
+      background: var(--secondary);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+    }
+
+    .section-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
+    .chevron {
+      color: var(--muted-foreground);
+      transition: transform 0.3s ease;
+    }
+
+    .section-card.open .chevron {
+      transform: rotate(180deg);
+    }
+
+    .section-content-wrapper {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.23, 1, 0.32, 1), opacity 0.4s ease;
+      opacity: 0;
+    }
+
+    .section-card.open .section-content-wrapper {
+      max-height: 2000px; /* high value to allow contents to expand */
+      opacity: 1;
+    }
+
+    .section-content {
+      padding: 1.5rem;
+      padding-top: 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      margin-top: 0;
+      padding-top: 1.5rem;
+    }
+
+    /* Projects list */
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .project-item {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding: 1rem;
+      border-radius: 1rem;
+      transition: background 0.3s;
+    }
+
+    .project-item:hover {
+      background: var(--accent-hover);
+    }
+
+    @media (min-width: 640px) {
+      .project-item {
+        flex-direction: row;
+      }
+    }
+
+    .project-image-wrapper {
+      width: 100%;
+      height: 8rem;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    @media (min-width: 640px) {
+      .project-image-wrapper {
+        width: 12rem;
+        flex-shrink: 0;
+      }
+    }
+
+    .project-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.5s, transform 0.5s;
+    }
+
+    .project-item:hover .project-image {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+    }
+
+    .project-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .project-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+    }
+
+    .project-title {
+      font-size: 1.125rem;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .project-link {
+      color: var(--muted-foreground);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .project-link:hover {
+      color: var(--primary);
+    }
+
+    .project-description {
+      font-size: 0.875rem;
+      color: var(--muted-foreground);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .tag {
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.5rem;
+      background: var(--secondary);
+      color: var(--primary);
+      border-radius: 0.25rem;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    /* Movies list */
+    .movies-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .search-wrapper {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--muted-foreground);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--card-border);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem 0.75rem 2.5rem;
+      color: var(--primary);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .movies-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    @media (min-width: 640px) {
+      .movies-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .movie-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      transition: background 0.3s;
+    }
+
+    .movie-item:hover {
+      background: var(--accent-hover);
+    }
+
+    .movie-poster-wrapper {
+      width: 5rem;
+      height: 7rem;
+      border-radius: 0.5rem;
+      overflow: hidden;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .movie-poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.5s;
+    }
+
+    .movie-item:hover .movie-poster {
+      filter: grayscale(0%);
+    }
+
+    .movie-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .movie-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.25rem;
+    }
+
+    .movie-title {
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--primary);
+    }
+
+    .movie-year {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      font-family: monospace;
+    }
+
+    .movie-genre {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      margin-bottom: 0.5rem;
+    }
+
+    .stars {
+      display: flex;
+      gap: 0.125rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .star-icon {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+
+    .star-filled {
+      fill: var(--primary);
+      color: var(--primary);
+    }
+
+    .star-empty {
+      color: rgba(255, 255, 255, 0.1);
+    }
+
+    .movie-desc {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .no-movies {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 3rem 0;
+      color: var(--muted-foreground);
+      font-style: italic;
+    }
+
+    /* Moments section */
+    .moments-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+    }
+
+    @media (min-width: 480px) {
+      .moments-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    .moment-item {
+      position: relative;
+      aspect-ratio: 1 / 1;
+      border-radius: 0.75rem;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .moment-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(100%);
+      transition: filter 0.7s, transform 0.7s;
+    }
+
+    .moment-item:hover .moment-image {
+      filter: grayscale(0%);
+      transform: scale(1.1);
+    }
+
+    .moment-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1rem;
+    }
+
+    .moment-item:hover .moment-overlay {
+      opacity: 1;
+    }
+
+    .moment-caption {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #ffffff;
+      margin-bottom: 0.25rem;
+      transform: translateY(0.5rem);
+      transition: transform 0.3s;
+    }
+
+    .moment-date {
+      font-size: 0.625rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: rgba(255, 255, 255, 0.6);
+      transform: translateY(0.5rem);
+      transition: transform 0.3s 0.05s;
+    }
+
+    .moment-item:hover .moment-caption,
+    .moment-item:hover .moment-date {
+      transform: translateY(0);
+    }
+
+    /* Footer CTA */
+    .cta-banner {
+      background: var(--primary);
+      color: var(--primary-foreground);
+      border-radius: 1.5rem;
+      padding: 2.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    @media (min-width: 640px) {
+      .cta-banner {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+
+    .cta-title {
+      font-size: 1.5rem;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.25rem;
+    }
+
+    .cta-sub {
+      font-size: 0.95rem;
+      opacity: 0.7;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      background: #ffffff;
+      color: #000000;
+      border: none;
+      border-radius: 2rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .cta-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .cta-btn:active {
+      transform: scale(0.95);
+    }
+
+    /* Page Footer */
+    .page-footer {
+      text-align: center;
+      padding: 3rem 0;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      margin-top: 5rem;
+      font-size: 0.8125rem;
+      color: var(--muted-foreground);
+      width: 100%;
+      max-width: 48rem;
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <!-- Profile Card -->
+    <section class="profile-card">
+      <div class="profile-avatar-container">
+        <img class="profile-avatar" src="https://images.unsplash.com/photo-1543132220-3ec99c6094dc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdCUyMG1hbGV8ZW58MXx8fHwxNzgwNDUyMzc4fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Canang Cita">
+      </div>
+      <div class="profile-info">
+        <div class="profile-header">
+          <h1 class="profile-name">Canang Cita</h1>
+          <p class="profile-role">Product Designer & Developer</p>
+        </div>
+        <p class="profile-bio">Creating lorem ipsum website and campaign.</p>
+        
+        <div class="profile-meta">
+          <div class="profile-meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Surabaya, INA</span>
+          </div>
+          <div class="profile-meta-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            <span>hello@euruseast.my.id</span>
+          </div>
+        </div>
+
+        <div class="social-links">
+          <button class="social-btn" aria-label="GitHub">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+          </button>
+          <button class="social-btn" aria-label="Twitter">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+          </button>
+          <button class="social-btn" aria-label="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- My Projects Collapsible Section -->
+    <div class="section-card open" id="sec-projects">
+      <button class="section-header" onclick="toggleSection('sec-projects')">
+        <div class="section-title-area">
+          <div class="section-icon-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          </div>
+          <h2 class="section-title">My Projects</h2>
+        </div>
+        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="section-content-wrapper">
+        <div class="section-content">
+          <div class="projects-list">
+            <!-- Project 1 -->
+            <div class="project-item">
+              <div class="project-image-wrapper">
+                <img class="project-image" src="https://images.unsplash.com/photo-1604074131228-9d48b811bd80?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjB3ZWIlMjBkZXNpZ24lMjBwb3J0Zm9saW8lMjBtb2NrdXB8ZW58MXx8fHwxNzgwMjkyODkxfDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Nova Dashboard">
+              </div>
+              <div class="project-info">
+                <div>
+                  <div class="project-title-row">
+                    <h3 class="project-title">Nova Dashboard</h3>
+                    <a class="project-link" href="#" aria-label="External Link">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                  </div>
+                  <p class="project-description">A minimalist analytics dashboard for SaaS companies. Focused on high data density with low cognitive load.</p>
+                </div>
+                <div class="project-tags">
+                  <span class="tag">React</span>
+                  <span class="tag">Framer Motion</span>
+                  <span class="tag">Tailwind</span>
+                </div>
+              </div>
+            </div>
+            <!-- Project 2 -->
+            <div class="project-item">
+              <div class="project-image-wrapper">
+                <img class="project-image" src="https://images.unsplash.com/photo-1581287053822-fd7bf4f4bfec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjbGVhbiUyMG1pbmltYWxpc3QlMjBtb2JpbGUlMjBhcHAlMjBkZXNpZ258ZW58MXx8fHwxNzgwNDUyMzc4fDA&ixlib=rb-4.1.0&q=80&w=1080" alt="Aether Mobile">
+              </div>
+              <div class="project-info">
+                <div>
+                  <div class="project-title-row">
+                    <h3 class="project-title">Aether Mobile</h3>
+                    <a class="project-link" href="#" aria-label="External Link">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                    </a>
+                  </div>
+                  <p class="project-description">Minimalist lifestyle app for mindful breathing and meditation. Reimagining wellness through silence.</p>
+                </div>
+                <div class="project-tags">
+                  <span class="tag">React Native</span>
+                  <span class="tag">Expo</span>
+                  <span class="tag">Reanimated</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Movie Recommendations -->
+    <div class="section-card" id="sec-movies">
+      <button class="section-header" onclick="toggleSection('sec-movies')">
+        <div class="section-title-area">
+          <div class="section-icon-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"/><line x1="7" y1="2" x2="7" y2="22"/><line x1="17" y1="2" x2="17" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="2" y1="7" x2="7" y2="7"/><line x1="2" y1="17" x2="7" y2="17"/><line x1="17" y1="17" x2="22" y2="17"/><line x1="17" y1="7" x2="22" y2="7"/></svg>
+          </div>
+          <h2 class="section-title">Movie Recommendations</h2>
+        </div>
+        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="section-content-wrapper">
+        <div class="section-content">
+          <div class="movies-section">
+            <div class="search-wrapper">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="movie-search" class="search-input" placeholder="Search movies or genres..." oninput="filterMovies()">
+            </div>
+
+            <div class="movies-grid" id="movies-container">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Moments -->
+    <div class="section-card" id="sec-moments">
+      <button class="section-header" onclick="toggleSection('sec-moments')">
+        <div class="section-title-area">
+          <div class="section-icon-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </div>
+          <h2 class="section-title">My Moments</h2>
+        </div>
+        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="section-content-wrapper">
+        <div class="section-content">
+          <div class="moments-grid">
+            <!-- Moment 1 -->
+            <div class="moment-item">
+              <img class="moment-image" src="https://images.unsplash.com/photo-1449247709967-d4461a6a6103?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhZXN0aGV0aWMlMjBvZmZpY2UlMjB3b3Jrc3BhY2UlMjBtaW5pbWFsaXN0fGVufDF8fHx8MTc4MDQ1MjM3OHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Studio Morning">
+              <div class="moment-overlay">
+                <p class="moment-caption">Quiet mornings in the studio.</p>
+                <p class="moment-date">May 2026</p>
+              </div>
+            </div>
+            <!-- Moment 2 -->
+            <div class="moment-item">
+              <img class="moment-image" src="https://images.unsplash.com/photo-1483366774565-c783b9f70e2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxtaW5pbWFsaXN0JTIwYXJjaGl0ZWN0dXJlJTIwZGVzaWdufGVufDF8fHx8MTc4MDQ1MjM3OHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Architecture Geometry">
+              <div class="moment-overlay">
+                <p class="moment-caption">The geometry of architecture.</p>
+                <p class="moment-date">April 2026</p>
+              </div>
+            </div>
+            <!-- Moment 3 -->
+            <div class="moment-item">
+              <img class="moment-image" src="https://images.unsplash.com/flagged/photo-1554443877-b2ea8132bab7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxiZWF1dGlmdWwlMjBsYW5kc2NhcGUlMjBuYXR1cmUlMjBtaW5pbWFsaXN0fGVufDF8fHx8MTc4MDQ1MjM3OHww&ixlib=rb-4.1.0&q=80&w=1080" alt="Landscape Nature">
+              <div class="moment-overlay">
+                <p class="moment-caption">Finding peace in nature.</p>
+                <p class="moment-date">March 2026</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Footer Banner -->
+    <div class="cta-banner">
+      <div>
+        <h3 class="cta-title">Let's build something together.</h3>
+        <p class="cta-sub">Currently accepting new projects for Q3 2026.</p>
+      </div>
+      <button class="cta-btn">Get in Touch</button>
+    </div>
+  </main>
+
+  <footer class="page-footer">
+    <p>© <span id="current-year"></span> — Minimalist Profile</p>
+  </footer>
+
+  <script>
+    // Collapsible Logic
+    function toggleSection(sectionId) {
+      const section = document.getElementById(sectionId);
+      const content = section.querySelector('.section-content-wrapper');
+      
+      if (section.classList.contains('open')) {
+        content.style.maxHeight = content.scrollHeight + 'px';
+        // force layout
+        content.offsetHeight; 
+        content.style.maxHeight = '0px';
+        section.classList.remove('open');
+      } else {
+        section.classList.add('open');
+        content.style.maxHeight = content.scrollHeight + 'px';
+        content.addEventListener('transitionend', function handler() {
+          if (section.classList.contains('open')) {
+            content.style.maxHeight = '2000px';
+          }
+          content.removeEventListener('transitionend', handler);
+        });
+      }
+    }
+
+    // Set height initially for default open section
+    document.querySelectorAll('.section-card.open .section-content-wrapper').forEach(el => {
+      el.style.maxHeight = '2000px';
+    });
+
+    // Movie Data
+    const movies = [
+      {
+        id: "1",
+        title: "Interstellar",
+        year: "2014",
+        genre: "Sci-Fi / Adventure",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1754638504964-880857928e64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbnRlcnN0ZWxsYXIlMjBtb3ZpZSUyMHBvc3RlciUyMGNpbmVtYXxlbnwxfHx8fDE3ODA0NTI2MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        description: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival."
+      },
+      {
+        id: "2",
+        title: "Inception",
+        year: "2010",
+        genre: "Action / Sci-Fi",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1667004569384-df0b431fea87?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxpbmNlcHRpb24lMjBtb3ZpZSUyMGZpbG0lMjBub2lyfGVufDF8fHx8MTc4MDQ1MjM3OHww&ixlib=rb-4.1.0&q=80&w=1080",
+        description: "A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task."
+      },
+      {
+        id: "3",
+        title: "Blade Runner 2049",
+        year: "2017",
+        genre: "Sci-Fi / Drama",
+        rating: 4,
+        image: "https://images.unsplash.com/photo-1727812518524-0129a7af817e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxibGFkZSUyMHJ1bm5lciUyMDIwNDklMjBhZXN0aGV0aWMlMjBtb3ZpZXxlbnwxfHx8fDE3ODA0NTI2MDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        description: "Young Blade Runner K's discovery of a long-buried secret leads him to track down former Blade Runner Rick Deckard."
+      },
+      {
+        id: "4",
+        title: "Parasite",
+        year: "2019",
+        genre: "Thriller / Comedy",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1630679246426-e488688fbc3d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwYXJhc2l0ZSUyMG1vdmllJTIwYWVzdGhldGljfGVufDF8fHx8MTc4MDQ1MjYwNnww&ixlib=rb-4.1.0&q=80&w=1080",
+        description: "Greed and class discrimination threaten the newly formed symbiotic relationship between the wealthy Park family and the destitute Kim clan."
+      },
+      {
+        id: "5",
+        title: "Grand Budapest Hotel",
+        year: "2014",
+        genre: "Comedy / Adventure",
+        rating: 4,
+        image: "https://images.unsplash.com/photo-1678436689052-565b1f9ee999?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxncmFuZCUyMGJ1ZGFwZXN0JTIwaG90ZWwlMjBtb3ZpZSUyMGFlc3RoZXRpY3xlbnwxfHx8fDE3ODA0NTI2MDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+        description: "A writer encounters the owner of a decaying high-class hotel, who tells him of his early years serving as a lobby boy."
+      },
+      {
+        id: "6",
+        title: "Dune",
+        year: "2021",
+        genre: "Action / Sci-Fi",
+        rating: 5,
+        image: "https://images.unsplash.com/photo-1547235001-d703406d3f17?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkdW5lJTIwbW92aWUlMjBkZXNlcnQlMjBsYW5kc2NhcGV8ZW58MXx8fHwxNzgwNDUyNjA2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+        description: "Feature adaptation of Frank Herbert's science fiction novel about the son of a noble family entrusted with the protection of the most valuable asset in the galaxy."
+      }
+    ];
+
+    function renderMovies(movieList) {
+      const container = document.getElementById('movies-container');
+      if (movieList.length === 0) {
+        container.innerHTML = `<div class="no-movies">No movies found matching your search.</div>`;
+        return;
+      }
+
+      container.innerHTML = movieList.map(m => {
+        let starsHTML = '';
+        for (let i = 0; i < 5; i++) {
+          const filled = i < m.rating;
+          starsHTML += `
+            <svg class="star-icon ${filled ? 'star-filled' : 'star-empty'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+            </svg>
+          `;
+        }
+
+        return `
+          <div class="movie-item">
+            <div class="movie-poster-wrapper">
+              <img class="movie-poster" src="${m.image}" alt="${m.title}">
+            </div>
+            <div class="movie-info">
+              <div class="movie-header">
+                <h4 class="movie-title">${m.title}</h4>
+                <span class="movie-year">${m.year}</span>
+              </div>
+              <p class="movie-genre">${m.genre}</p>
+              <div class="stars">${starsHTML}</div>
+              <p class="movie-desc">${m.description}</p>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterMovies() {
+      const query = document.getElementById('movie-search').value.toLowerCase();
+      const filtered = movies.filter(m => 
+        m.title.toLowerCase().includes(query) || 
+        m.genre.toLowerCase().includes(query)
+      );
+      renderMovies(filtered);
+    }
+
+    // Initial render
+    renderMovies(movies);
+
+    // Footer Year
+    document.getElementById('current-year').innerText = new Date().getFullYear();
+  </script>
+</body>
+</html>
