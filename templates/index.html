@@ -496,68 +496,88 @@
     }
 
     /* Games section */
+    .games-section-wrapper {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
     .games-list {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 0.875rem;
     }
 
     .game-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
-      padding: 0.75rem 1rem;
-      border-radius: 0.75rem;
-      transition: background 0.3s;
+      gap: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 1rem;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
+                  background-color 0.25s ease, 
+                  border-color 0.25s ease;
+      position: relative;
+      overflow: hidden;
     }
 
     .game-item:hover {
-      background: var(--accent-hover);
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.035);
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
     }
 
     .game-left {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.25rem;
       flex: 1;
       min-width: 0;
     }
 
     .game-capsule-wrapper {
-      width: 4.5rem;
-      height: 1.7rem;
-      border-radius: 0.25rem;
+      width: 5.5rem;
+      height: 2.0625rem;
+      border-radius: 0.375rem;
       overflow: hidden;
       flex-shrink: 0;
       border: 1px solid rgba(255, 255, 255, 0.05);
+      background: #111;
     }
 
     .game-capsule {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      filter: grayscale(100%);
-      transition: filter 0.5s;
+      filter: grayscale(80%) brightness(90%);
+      transition: filter 0.4s ease, transform 0.4s ease;
     }
 
     .game-item:hover .game-capsule {
-      filter: grayscale(0%);
+      filter: grayscale(0%) brightness(100%);
+      transform: scale(1.05);
     }
 
     .game-info {
       min-width: 0;
       display: flex;
       flex-direction: column;
+      gap: 0.25rem;
     }
 
     .game-title {
-      font-size: 0.95rem;
+      font-size: 1rem;
       font-weight: 500;
-      color: var(--primary);
+      color: #ffffff;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      transition: color 0.2s;
+      text-decoration: none;
     }
 
     .game-playtime-row {
@@ -568,67 +588,55 @@
       color: var(--muted-foreground);
     }
 
-    .game-status-dot {
-      width: 0.375rem;
-      height: 0.375rem;
-      border-radius: 50%;
-      background: #4ade80;
-      display: inline-block;
-      animation: pulse 2s infinite;
+    .game-time-icon {
+      width: 0.8rem;
+      height: 0.8rem;
+      color: var(--muted-foreground);
     }
 
-    @keyframes pulse {
-      0% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7);
-      }
-      70% {
-        transform: scale(1);
-        box-shadow: 0 0 0 4px rgba(74, 222, 128, 0);
-      }
-      100% {
-        transform: scale(0.95);
-        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0);
-      }
+    .game-review-snippet {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.4);
+      font-style: italic;
+      margin-top: 0.125rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .game-right {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1rem;
       flex-shrink: 0;
-    }
-
-    .game-stars {
-      display: flex;
-      gap: 0.125rem;
-    }
-
-    .game-star-icon {
-      width: 0.7rem;
-      height: 0.7rem;
     }
 
     .recommend-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.25rem;
+      gap: 0.375rem;
       font-size: 0.65rem;
       font-weight: 600;
-      padding: 0.2rem 0.5rem;
-      border-radius: 0.375rem;
+      padding: 0.3rem 0.625rem;
+      border-radius: 0.5rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
 
+    .recommend-badge svg {
+      width: 0.75rem;
+      height: 0.75rem;
+    }
+
     .recommend-badge.recommended {
-      background: rgba(74, 222, 128, 0.1);
+      background: rgba(74, 222, 128, 0.06);
       color: #4ade80;
       border: 1px solid rgba(74, 222, 128, 0.15);
     }
 
     .recommend-badge.not-recommended {
-      background: rgba(248, 113, 113, 0.1);
+      background: rgba(248, 113, 113, 0.06);
       color: #f87171;
       border: 1px solid rgba(248, 113, 113, 0.15);
     }
@@ -640,21 +648,81 @@
       font-style: italic;
     }
 
-    @media (max-width: 480px) {
+    /* Search bar within games list */
+    .games-search-wrapper {
+      position: relative;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Pagination style */
+    .pagination-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .page-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: var(--muted-foreground);
+      font-family: inherit;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .page-btn:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+      color: var(--primary);
+    }
+
+    .page-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: var(--primary-foreground);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+    }
+
+    .page-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+      background: transparent;
+      border-color: transparent;
+    }
+
+    @media (max-width: 540px) {
       .game-item {
         flex-direction: column;
         align-items: flex-start;
-        gap: 0.5rem;
-        padding: 0.75rem;
+        gap: 0.75rem;
+        padding: 1rem;
       }
       .game-right {
         width: 100%;
-        justify-content: space-between;
-        margin-left: 5.5rem;
-        margin-top: -0.25rem;
+        justify-content: flex-end;
+        margin-top: 0.25rem;
       }
       .game-left {
         width: 100%;
+      }
+      .game-review-snippet {
+        white-space: normal;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
     }
 
@@ -950,8 +1018,22 @@
       </button>
       <div class="section-content-wrapper">
         <div class="section-content">
-          <div class="games-list" id="games-container">
-            <div class="no-games">Loading games from Steam...</div>
+          <div class="games-section-wrapper">
+            <!-- Search bar -->
+            <div class="games-search-wrapper">
+              <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+              <input type="text" id="game-search" class="search-input" placeholder="Search games or reviews..." oninput="onGameSearchInput()">
+            </div>
+
+            <!-- Games Container -->
+            <div class="games-list" id="games-container">
+              <div class="no-games">Loading games from Steam...</div>
+            </div>
+
+            <!-- Numbered Pagination -->
+            <div class="pagination-container" id="games-pagination">
+              <!-- Rendered via JS -->
+            </div>
           </div>
         </div>
       </div>
@@ -1151,11 +1233,10 @@
     renderMovies(movies);
 
     // Steam Games Data & Rendering
-    const gameRatings = {
-      "3678970": { rating: 5, recommend: true },  // TBH: Task Bar Hero
-      "570": { rating: 5, recommend: true },      // Dota 2
-      "3002570": { rating: 4, recommend: true }   // Nymphomaniac - Sex Addict
-    };
+    let allGames = [];
+    let filteredGames = [];
+    let currentGamePage = 1;
+    const gamesPerPage = 5;
 
     function loadSteamGames() {
       const container = document.getElementById('games-container');
@@ -1163,74 +1244,131 @@
       fetch('/api/steam')
         .then(response => {
           if (!response.ok) {
-            throw new Error('Failed to fetch Steam games');
+            throw new Error('Failed to fetch Steam recommendations');
           }
           return response.json();
         })
         .then(games => {
-          if (!games || games.length === 0) {
-            container.innerHTML = `<div class="no-games">No games currently active.</div>`;
-            return;
-          }
-          
-          container.innerHTML = games.map(g => {
-            const meta = gameRatings[g.appId] || { rating: 0, recommend: true };
-            
-            let starsHTML = '';
-            for (let i = 0; i < 5; i++) {
-              const filled = i < meta.rating;
-              starsHTML += `
-                <svg class="game-star-icon ${filled ? 'star-filled' : 'star-empty'}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-                </svg>
-              `;
-            }
-            
-            const recommendClass = meta.recommend ? 'recommended' : 'not-recommended';
-            const recommendLabel = meta.recommend ? 'Recommend' : 'No Recommend';
-            const recommendIcon = meta.recommend 
-              ? `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>`
-              : `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm12-5h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>`;
-
-            const isCurrentlyPlaying = g.status.toLowerCase().includes('in-game');
-            const statusDot = isCurrentlyPlaying ? `<span class="game-status-dot"></span>` : '';
-            const playtimeText = g.playtime ? g.playtime : '0 hrs on record';
-            const statusText = g.status ? g.status : '';
-
-            let infoText = playtimeText;
-            if (statusText) {
-              infoText += ` • ${statusText}`;
-            }
-
-            return `
-              <div class="game-item">
-                <div class="game-left">
-                  <div class="game-capsule-wrapper">
-                    <img class="game-capsule" src="${g.image}" alt="${g.title}">
-                  </div>
-                  <div class="game-info">
-                    <h4 class="game-title">${g.title}</h4>
-                    <div class="game-playtime-row">
-                      ${statusDot}
-                      <span>${infoText}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="game-right">
-                  <div class="game-stars">${starsHTML}</div>
-                  <span class="recommend-badge ${recommendClass}">
-                    ${recommendIcon}
-                    ${recommendLabel}
-                  </span>
-                </div>
-              </div>
-            `;
-          }).join('');
+          allGames = games;
+          filteredGames = games;
+          currentGamePage = 1;
+          renderGamePage();
         })
         .catch(err => {
           console.error('Error loading Steam games:', err);
-          container.innerHTML = `<div class="no-games">Failed to load games from Steam.</div>`;
+          container.innerHTML = `<div class="no-games">Failed to load recommendations from Steam.</div>`;
+          document.getElementById('games-pagination').innerHTML = '';
         });
+    }
+
+    function onGameSearchInput() {
+      const query = document.getElementById('game-search').value.toLowerCase();
+      filteredGames = allGames.filter(g => 
+        g.title.toLowerCase().includes(query) || 
+        g.description.toLowerCase().includes(query)
+      );
+      currentGamePage = 1;
+      renderGamePage();
+    }
+
+    function changeGamePage(page) {
+      currentGamePage = page;
+      renderGamePage();
+      
+      // Smooth scroll back to top of the games section if needed
+      const section = document.getElementById('sec-games');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }
+
+    function renderGamePage() {
+      const container = document.getElementById('games-container');
+      const paginationContainer = document.getElementById('games-pagination');
+      
+      if (filteredGames.length === 0) {
+        container.innerHTML = `<div class="no-games">No recommendations found matching your search.</div>`;
+        paginationContainer.innerHTML = '';
+        return;
+      }
+
+      // Calculate pagination
+      const totalPages = Math.ceil(filteredGames.length / gamesPerPage);
+      if (currentGamePage > totalPages) currentGamePage = totalPages;
+      if (currentGamePage < 1) currentGamePage = 1;
+
+      const startIndex = (currentGamePage - 1) * gamesPerPage;
+      const pageGames = filteredGames.slice(startIndex, startIndex + gamesPerPage);
+
+      // Render games list
+      container.innerHTML = pageGames.map(g => {
+        const recommendClass = g.recommend ? 'recommended' : 'not-recommended';
+        const recommendLabel = g.recommend ? 'Recommended' : 'Not Recommended';
+        const recommendIcon = g.recommend 
+          ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>`
+          : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3zm12-5h3a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-3"/></svg>`;
+
+        const timeIcon = `<svg class="game-time-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
+
+        const reviewSnippet = g.description ? `<p class="game-review-snippet">"${g.description}"</p>` : '';
+
+        return `
+          <div class="game-item">
+            <div class="game-left">
+              <div class="game-capsule-wrapper">
+                <img class="game-capsule" src="${g.image}" alt="${g.title}">
+              </div>
+              <div class="game-info">
+                <h4 class="game-title">${g.title}</h4>
+                <div class="game-playtime-row">
+                  ${timeIcon}
+                  <span>${g.playtime}</span>
+                </div>
+                ${reviewSnippet}
+              </div>
+            </div>
+            <div class="game-right">
+              <span class="recommend-badge ${recommendClass}">
+                ${recommendIcon}
+                ${recommendLabel}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      // Render pagination controls (numbered nav bar)
+      if (totalPages <= 1) {
+        paginationContainer.innerHTML = '';
+        return;
+      }
+
+      let paginationHTML = '';
+      
+      // Prev button
+      paginationHTML += `
+        <button class="page-btn" onclick="changeGamePage(${currentGamePage - 1})" ${currentGamePage === 1 ? 'disabled' : ''} aria-label="Previous Page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+      `;
+
+      // Page numbers
+      for (let i = 1; i <= totalPages; i++) {
+        paginationHTML += `
+          <button class="page-btn ${i === currentGamePage ? 'active' : ''}" onclick="changeGamePage(${i})">
+            ${i}
+          </button>
+        `;
+      }
+
+      // Next button
+      paginationHTML += `
+        <button class="page-btn" onclick="changeGamePage(${currentGamePage + 1})" ${currentGamePage === totalPages ? 'disabled' : ''} aria-label="Next Page">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      `;
+
+      paginationContainer.innerHTML = paginationHTML;
     }
 
     loadSteamGames();

@@ -4,48 +4,132 @@ import (
 	"embed"
 	"encoding/json"
 	"fmt"
+	"html"
 	"html/template"
 	"io"
 	"log"
 	"net/http"
 	"os"
 	"strings"
+	"sync"
 	"time"
 )
 
 //go:embed templates/*
 var templatesFS embed.FS
 
-type SteamGame struct {
-	AppID    string `json:"appId"`
-	Title    string `json:"title"`
-	Image    string `json:"image"`
-	Playtime string `json:"playtime"`
-	Status   string `json:"status"`
+type SteamRecommendation struct {
+	AppID       string `json:"appId"`
+	Title       string `json:"title"`
+	Image       string `json:"image"`
+	Playtime    string `json:"playtime"`
+	Recommend   bool   `json:"recommend"`
+	Description string `json:"description"`
 }
 
-var fallbackGames = []SteamGame{
+var fallbackRecommendations = []SteamRecommendation{
 	{
-		AppID:    "3678970",
-		Title:    "TBH: Task Bar Hero",
-		Image:    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3678970/124cbad7c55f19814d0b8f019e06e5a50b8c6337/capsule_184x69.jpg?t=1780512075",
-		Playtime: "37 hrs on record",
-		Status:   "Currently In-Game",
+		AppID:       "3678970",
+		Title:       "TBH: Task Bar Hero",
+		Image:       "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3678970/124cbad7c55f19814d0b8f019e06e5a50b8c6337/capsule_184x69.jpg?t=1780512075",
+		Playtime:    "37.5 hrs on record",
+		Recommend:   true,
+		Description: "i recommended",
 	},
 	{
-		AppID:    "570",
-		Title:    "Dota 2",
-		Image:    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/570/capsule_184x69.jpg?t=1769535998",
-		Playtime: "4,342 hrs on record",
-		Status:   "last played on Jun 11, 2026",
+		AppID:       "1238000",
+		Title:       "Mass Effect Legendary Edition",
+		Image:       "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1238000/capsule_184x69.jpg?t=1779987589",
+		Playtime:    "34.1 hrs on record",
+		Recommend:   true,
+		Description: "Need Mass Effect 4 RN!",
 	},
 	{
-		AppID:    "3002570",
-		Title:    "Nymphomaniac - Sex Addict",
-		Image:    "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/3002570/capsule_184x69.jpg?t=1778660583",
-		Playtime: "57 hrs on record",
-		Status:   "last played on May 24, 2026",
+		AppID:       "220240",
+		Title:       "Far Cry 3",
+		Image:       "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/220240/capsule_184x69.jpg?t=1752169206",
+		Playtime:    "42.4 hrs on record",
+		Recommend:   true,
+		Description: "Best series so far for FarCry Series..",
 	},
+	{
+		AppID:       "1172470",
+		Title:       "Apex Legends™",
+		Image:       "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/1172470/b622efa206400324df2ab812786578dda4cc3537/capsule_184x69.jpg?t=1778502442",
+		Playtime:    "105.1 hrs on record",
+		Recommend:   false,
+		Description: "didnt recommended",
+	},
+}
+
+var (
+	gameNamesCacheMutex sync.RWMutex
+	gameNamesCache      = map[string]string{
+		"1172470": "Apex Legends™",
+		"714010":  "Aimlabs",
+		"346900":  "AdVenture Capitalist",
+		"761890":  "Albion Online",
+		"3678970": "TBH: Task Bar Hero",
+		"3224770": "Umamusume: Pretty Derby",
+		"1238000": "Mass Effect Legendary Edition",
+		"523650":  "Lust for Darkness",
+		"220240":  "Far Cry 3",
+		"57690":   "Tropico 4",
+	}
+)
+
+func fetchGameName(appID string) string {
+	url := fmt.Sprintf("https://store.steampowered.com/api/appdetails?appids=%s", appID)
+	client := &http.Client{Timeout: 3 * time.Second}
+	resp, err := client.Get(url)
+	if err != nil {
+		log.Printf("error fetching game name for %s: %v", appID, err)
+		return ""
+	}
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("error reading game name body for %s: %v", appID, err)
+		return ""
+	}
+
+	var data map[string]interface{}
+	if err := json.Unmarshal(body, &data); err != nil {
+		log.Printf("error unmarshalling game name json for %s: %v", appID, err)
+		return ""
+	}
+
+	if appData, ok := data[appID].(map[string]interface{}); ok {
+		if success, ok := appData["success"].(bool); ok && success {
+			if info, ok := appData["data"].(map[string]interface{}); ok {
+				if name, ok := info["name"].(string); ok {
+					return name
+				}
+			}
+		}
+	}
+	return ""
+}
+
+func getGameName(appID string) string {
+	gameNamesCacheMutex.RLock()
+	name, ok := gameNamesCache[appID]
+	gameNamesCacheMutex.RUnlock()
+	if ok {
+		return name
+	}
+
+	// Fetch name dynamically
+	fetchedName := fetchGameName(appID)
+	if fetchedName == "" {
+		fetchedName = "Steam Game (ID: " + appID + ")"
+	}
+
+	gameNamesCacheMutex.Lock()
+	gameNamesCache[appID] = fetchedName
+	gameNamesCacheMutex.Unlock()
+	return fetchedName
 }
 
 func extractBetween(text, start, end string) string {
@@ -61,106 +145,108 @@ func extractBetween(text, start, end string) string {
 	return text[startIndex : startIndex+endIndex]
 }
 
-func fetchSteamGames() []SteamGame {
+func cleanHTML(s string) string {
+	s = strings.ReplaceAll(s, "<br>", "\n")
+	s = strings.ReplaceAll(s, "<br/>", "\n")
+	s = strings.ReplaceAll(s, "<br />", "\n")
+	var builder strings.Builder
+	inTag := false
+	for _, r := range s {
+		if r == '<' {
+			inTag = true
+		} else if r == '>' {
+			inTag = false
+		} else if !inTag {
+			builder.WriteRune(r)
+		}
+	}
+	return html.UnescapeString(builder.String())
+}
+
+func fetchSteamRecommendations() []SteamRecommendation {
 	client := &http.Client{
 		Timeout: 5 * time.Second,
 	}
 
-	resp, err := client.Get("https://steamcommunity.com/id/mz_ganteng")
+	resp, err := client.Get("https://steamcommunity.com/id/mz_ganteng/recommended/")
 	if err != nil {
-		log.Printf("error fetching steam profile: %v, using fallback", err)
-		return fallbackGames
+		log.Printf("error fetching steam recommended page: %v, using fallback", err)
+		return fallbackRecommendations
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
 		log.Printf("steam returned status %d, using fallback", resp.StatusCode)
-		return fallbackGames
+		return fallbackRecommendations
 	}
 
 	body, err := io.ReadAll(io.LimitReader(resp.Body, 1024*1024))
 	if err != nil {
 		log.Printf("error reading steam response: %v, using fallback", err)
-		return fallbackGames
+		return fallbackRecommendations
 	}
 
-	html := string(body)
-	startIndex := strings.Index(html, "<div class=\"recent_games\">")
-	if startIndex == -1 {
-		log.Printf("could not find recent_games container, using fallback")
-		return fallbackGames
+	htmlStr := string(body)
+	reviewBlocks := strings.Split(htmlStr, "class=\"review_box\">")
+	if len(reviewBlocks) <= 1 {
+		log.Printf("found no individual review_box items, using fallback")
+		return fallbackRecommendations
 	}
 
-	block := html[startIndex:]
-	gameBlocks := strings.Split(block, "<div class=\"recent_game\">")
-	if len(gameBlocks) <= 1 {
-		log.Printf("found no individual recent_game items, using fallback")
-		return fallbackGames
-	}
+	var recs []SteamRecommendation
+	for i := 1; i < len(reviewBlocks); i++ {
+		block := reviewBlocks[i]
 
-	var games []SteamGame
-	for i := 1; i < len(gameBlocks); i++ {
-		gBlock := gameBlocks[i]
-
-		// Check if we hit right column or have enough games
-		if len(games) >= 3 || strings.Contains(gBlock, "profile_rightcol") {
-			break
+		// Extract App ID from the capsule link
+		appID := extractBetween(block, "https://steamcommunity.com/app/", "\"")
+		if appID == "" {
+			appID = extractBetween(block, "/recommended/", "/")
 		}
-
-		appID := extractBetween(gBlock, "https://steamcommunity.com/app/", "\"")
 		if appID == "" {
 			continue
 		}
 
-		image := extractBetween(gBlock, "class=\"game_capsule\" src=\"", "\"")
-		
-		gameNameBlock := extractBetween(gBlock, "class=\"game_name\"", "</div>")
-		title := extractBetween(gameNameBlock, ">", "</a>")
-		title = strings.TrimSpace(title)
-
-		detailsRaw := extractBetween(gBlock, "class=\"game_info_details\">", "</div>")
-		detailsRaw = strings.ReplaceAll(detailsRaw, "<br>", "\n")
-		detailsRaw = strings.ReplaceAll(detailsRaw, "<br/>", "\n")
-		detailsRaw = strings.ReplaceAll(detailsRaw, "<br />", "\n")
-
-		var detailsClean strings.Builder
-		inTag := false
-		for _, r := range detailsRaw {
-			if r == '<' {
-				inTag = true
-			} else if r == '>' {
-				inTag = false
-			} else if !inTag {
-				detailsClean.WriteRune(r)
-			}
+		// Extract Capsule Image
+		image := extractBetween(block, "class=\"game_capsule\"src=\"", "\"")
+		if image == "" {
+			image = extractBetween(block, "class=\"game_capsule\" src=\"", "\"")
 		}
 
-		lines := strings.Split(detailsClean.String(), "\n")
-		var playtime, status string
-		if len(lines) > 0 {
-			playtime = strings.TrimSpace(lines[0])
-		}
-		if len(lines) > 1 {
-			status = strings.TrimSpace(lines[1])
+		// Extract Recommended Status
+		recommend := true
+		if strings.Contains(block, "icon_thumbsDown.png") || strings.Contains(block, "Not Recommended") {
+			recommend = false
 		}
 
-		playtime = strings.Join(strings.Fields(playtime), " ")
-		status = strings.Join(strings.Fields(status), " ")
+		// Extract Playtime Hours
+		hoursRaw := extractBetween(block, "class=\"hours\">", "</div>")
+		hours := strings.TrimSpace(cleanHTML(hoursRaw))
 
-		games = append(games, SteamGame{
-			AppID:    appID,
-			Title:    title,
-			Image:    image,
-			Playtime: playtime,
-			Status:   status,
+		// Extract Review Content
+		descriptionRaw := extractBetween(block, "class=\"content \">", "</div>")
+		if descriptionRaw == "" {
+			descriptionRaw = extractBetween(block, "class=\"content\">", "</div>")
+		}
+		description := strings.TrimSpace(cleanHTML(descriptionRaw))
+
+		// Resolve Title
+		title := getGameName(appID)
+
+		recs = append(recs, SteamRecommendation{
+			AppID:       appID,
+			Title:       title,
+			Image:       image,
+			Playtime:    hours,
+			Recommend:   recommend,
+			Description: description,
 		})
 	}
 
-	if len(games) == 0 {
-		return fallbackGames
+	if len(recs) == 0 {
+		return fallbackRecommendations
 	}
 
-	return games
+	return recs
 }
 
 func main() {
@@ -182,9 +268,9 @@ func main() {
 
 	http.HandleFunc("/api/steam", func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		games := fetchSteamGames()
-		if err := json.NewEncoder(w).Encode(games); err != nil {
-			log.Printf("error encoding games to json: %v", err)
+		recs := fetchSteamRecommendations()
+		if err := json.NewEncoder(w).Encode(recs); err != nil {
+			log.Printf("error encoding recs to json: %v", err)
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
 	})
