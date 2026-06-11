@@ -88,7 +88,7 @@ func fetchGameName(appID string) string {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	body, err := io.ReadAll(io.LimitReader(resp.Body, 512*1024))
 	if err != nil {
 		log.Printf("error reading game name body for %s: %v", appID, err)
 		return ""
@@ -120,13 +120,17 @@ func getGameName(appID string) string {
 		return name
 	}
 
-	// Fetch name dynamically
+	gameNamesCacheMutex.Lock()
+	// Double-check after acquiring write lock
+	if name, ok := gameNamesCache[appID]; ok {
+		gameNamesCacheMutex.Unlock()
+		return name
+	}
+
 	fetchedName := fetchGameName(appID)
 	if fetchedName == "" {
 		fetchedName = "Steam Game (ID: " + appID + ")"
 	}
-
-	gameNamesCacheMutex.Lock()
 	gameNamesCache[appID] = fetchedName
 	gameNamesCacheMutex.Unlock()
 	return fetchedName
@@ -160,7 +164,8 @@ func cleanHTML(s string) string {
 			builder.WriteRune(r)
 		}
 	}
-	return html.UnescapeString(builder.String())
+	result := html.UnescapeString(builder.String())
+	return strings.Join(strings.Fields(result), " ")
 }
 
 func fetchSteamRecommendations() []SteamRecommendation {
@@ -221,6 +226,7 @@ func fetchSteamRecommendations() []SteamRecommendation {
 		// Extract Playtime Hours
 		hoursRaw := extractBetween(block, "class=\"hours\">", "</div>")
 		hours := strings.TrimSpace(cleanHTML(hoursRaw))
+		hours = strings.Join(strings.Fields(hours), " ")
 
 		// Extract Review Content
 		descriptionRaw := extractBetween(block, "class=\"content \">", "</div>")
@@ -228,6 +234,7 @@ func fetchSteamRecommendations() []SteamRecommendation {
 			descriptionRaw = extractBetween(block, "class=\"content\">", "</div>")
 		}
 		description := strings.TrimSpace(cleanHTML(descriptionRaw))
+		description = strings.Join(strings.Fields(description), " ")
 
 		// Resolve Title
 		title := getGameName(appID)
@@ -267,7 +274,12 @@ func main() {
 	})
 
 	http.HandleFunc("/api/steam", func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
 		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Cache-Control", "public, max-age=300")
 		recs := fetchSteamRecommendations()
 		if err := json.NewEncoder(w).Encode(recs); err != nil {
 			log.Printf("error encoding recs to json: %v", err)

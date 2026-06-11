@@ -519,7 +519,8 @@
       border-radius: 1rem;
       transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), 
                   background-color 0.25s ease, 
-                  border-color 0.25s ease;
+                  border-color 0.25s ease,
+                  box-shadow 0.25s ease;
       position: relative;
       overflow: hidden;
     }
@@ -679,10 +680,10 @@
       font-size: 0.85rem;
       font-weight: 500;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s, border-color 0.2s, color 0.2s, box-shadow 0.2s;
     }
 
-    .page-btn:hover {
+    .page-btn:hover:not(:disabled) {
       background: rgba(255, 255, 255, 0.06);
       border-color: rgba(255, 255, 255, 0.12);
       color: var(--primary);
@@ -1238,6 +1239,14 @@
     let currentGamePage = 1;
     const gamesPerPage = 5;
 
+    // Utility to prevent XSS when injecting API data into innerHTML
+    function escapeHtml(str) {
+      if (!str) return '';
+      const div = document.createElement('div');
+      div.appendChild(document.createTextNode(str));
+      return div.innerHTML;
+    }
+
     function loadSteamGames() {
       const container = document.getElementById('games-container');
       
@@ -1302,6 +1311,11 @@
 
       // Render games list
       container.innerHTML = pageGames.map(g => {
+        const title = escapeHtml(g.title);
+        const playtime = escapeHtml(g.playtime);
+        const image = escapeHtml(g.image);
+        const desc = escapeHtml(g.description);
+
         const recommendClass = g.recommend ? 'recommended' : 'not-recommended';
         const recommendLabel = g.recommend ? 'Recommended' : 'Not Recommended';
         const recommendIcon = g.recommend 
@@ -1310,19 +1324,19 @@
 
         const timeIcon = `<svg class="game-time-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`;
 
-        const reviewSnippet = g.description ? `<p class="game-review-snippet">"${g.description}"</p>` : '';
+        const reviewSnippet = desc ? `<p class="game-review-snippet">"${desc}"</p>` : '';
 
         return `
           <div class="game-item">
             <div class="game-left">
               <div class="game-capsule-wrapper">
-                <img class="game-capsule" src="${g.image}" alt="${g.title}">
+                <img class="game-capsule" src="${image}" alt="${title}">
               </div>
               <div class="game-info">
-                <h4 class="game-title">${g.title}</h4>
+                <h4 class="game-title">${title}</h4>
                 <div class="game-playtime-row">
                   ${timeIcon}
-                  <span>${g.playtime}</span>
+                  <span>${playtime}</span>
                 </div>
                 ${reviewSnippet}
               </div>
