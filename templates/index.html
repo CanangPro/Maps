@@ -821,6 +821,40 @@
       margin-top: 0.25rem;
     }
 
+    /* Nested timeline styles for grouped roles */
+    .experience-nested-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-left: 1.25rem;
+      border-left: 2px solid rgba(255, 255, 255, 0.04);
+      margin-left: 0.25rem;
+      margin-top: 1rem;
+      position: relative;
+    }
+
+    .experience-nested-item {
+      position: relative;
+    }
+
+    .experience-nested-item::before {
+      content: '';
+      position: absolute;
+      left: calc(-1.25rem - 5px);
+      top: 0.5rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--muted-foreground);
+      border: 2px solid var(--card);
+    }
+
+    .experience-sub-role {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
     @media (max-width: 640px) {
       .experience-header {
         flex-direction: column;
@@ -1101,22 +1135,22 @@
             <div class="experience-item">
               <div class="experience-header">
                 <div class="experience-title-group">
-                  <h3 class="experience-role">Freelance Product Designer & Developer</h3>
+                  <h3 class="experience-role">Platform Development</h3>
                   <div class="experience-company-row">
-                    <span class="experience-company">Self-Employed</span>
+                    <span class="experience-company">Wujud Unggul</span>
                     <span class="experience-dot">•</span>
-                    <span>Surabaya, INA (Remote)</span>
+                    <span>Full-time</span>
+                    <span class="experience-dot">•</span>
+                    <span>Surabaya, East Java, Indonesia</span>
                   </div>
                 </div>
-                <span class="experience-date">Oct 2022 – Present</span>
+                <span class="experience-date">Aug 2022 – Present · 3 yrs 11 mos</span>
               </div>
-              <p class="experience-desc">Designing and building high-end minimalist web applications and brand campaigns for diverse clients. Creating end-to-end user experiences, responsive CSS layouts, and custom backend integrations in Go.</p>
+              <p class="experience-desc">Designing, constructing, and maintaining high-performance web platforms and printing client portal interfaces. Responsible for responsive UI alignment, site performance optimizations, and quick prototyping integrations.</p>
               <div class="experience-tags">
-                <span class="tag">UI/UX Design</span>
-                <span class="tag">Web Development</span>
-                <span class="tag">HTML/CSS</span>
-                <span class="tag">JavaScript</span>
-                <span class="tag">Go</span>
+                <span class="tag">Wix Website Builder</span>
+                <span class="tag">Platform Development</span>
+                <span class="tag">Web Design</span>
               </div>
             </div>
 
@@ -1124,66 +1158,77 @@
             <div class="experience-item">
               <div class="experience-header">
                 <div class="experience-title-group">
-                  <h3 class="experience-role">Web Developer Intern</h3>
+                  <h3 class="experience-role">Digital Marketing Specialist</h3>
                   <div class="experience-company-row">
-                    <a href="https://kinetic.id" target="_blank" rel="noopener noreferrer" class="experience-company">PT Kinetic Digital Indonesia</a>
+                    <span class="experience-company">Mirai Creative Project</span>
                     <span class="experience-dot">•</span>
-                    <span>Surabaya, INA</span>
+                    <span>Freelance</span>
+                    <span class="experience-dot">•</span>
+                    <span>Mojokerto, East Java, Indonesia</span>
                   </div>
                 </div>
-                <span class="experience-date">Jul 2022 – Oct 2022</span>
+                <span class="experience-date">Sep 2021 – Present · 4 yrs 10 mos</span>
               </div>
-              <p class="experience-desc">Collaborated in designing and developing responsive web interfaces using WordPress and custom front-end setups for agency clients. Participated in team workshops focused on digital marketing campaigns, content strategy, and SEO optimization.</p>
+              <p class="experience-desc">Devising creative advertising strategies, targeting custom audiences, and setting up tracking funnels. Managing media buying campaigns, performance audits, and creative copy assets for brands.</p>
               <div class="experience-tags">
-                <span class="tag">WordPress</span>
-                <span class="tag">Web Design</span>
-                <span class="tag">PHP</span>
-                <span class="tag">HTML/CSS</span>
-                <span class="tag">Teamwork</span>
+                <span class="tag">Digital Marketing</span>
+                <span class="tag">Media Buying</span>
+                <span class="tag">Freelance</span>
               </div>
             </div>
 
-            <!-- Experience 3 -->
+            <!-- Experience 3 (Grouped / Nested) -->
             <div class="experience-item">
               <div class="experience-header">
                 <div class="experience-title-group">
-                  <h3 class="experience-role">East Java Media Contributor</h3>
+                  <h3 class="experience-role">Kinetic Indonesia</h3>
                   <div class="experience-company-row">
-                    <a href="https://risamedia.com" target="_blank" rel="noopener noreferrer" class="experience-company">Risa Media</a>
+                    <span class="experience-company">Contract</span>
                     <span class="experience-dot">•</span>
-                    <span>Surabaya, INA</span>
+                    <span>1 yr 7 mos</span>
                   </div>
                 </div>
-                <span class="experience-date">Dec 2018 – Sep 2022</span>
               </div>
-              <p class="experience-desc">Served as a regional contributor covering pop culture, Japanese cultural festivals (Japanese World Unair, Creators Super Fest), and creative industries in East Java. Produced event reviews, news coverage, and multimedia content.</p>
-              <div class="experience-tags">
-                <span class="tag">Content Writing</span>
-                <span class="tag">Event Coverage</span>
-                <span class="tag">Creative Media</span>
-                <span class="tag">Photography</span>
-              </div>
-            </div>
+              
+              <!-- Nested Timeline -->
+              <div class="experience-nested-list">
+                
+                <!-- Sub-role 1 -->
+                <div class="experience-nested-item">
+                  <div class="experience-header">
+                    <div class="experience-title-group">
+                      <h4 class="experience-sub-role">Account Executive</h4>
+                      <div class="experience-company-row">
+                        <span>Greater Surabaya</span>
+                      </div>
+                    </div>
+                    <span class="experience-date">Oct 2019 – Mar 2020 · 6 mos</span>
+                  </div>
+                  <p class="experience-desc">Coordinated key client accounts, managed media buying budgets, and collaborated closely with content creators and designers to execute marketing activations.</p>
+                  <div class="experience-tags">
+                    <span class="tag">Digital Marketing</span>
+                    <span class="tag">Media Buying</span>
+                  </div>
+                </div>
 
-            <!-- Experience 4 -->
-            <div class="experience-item">
-              <div class="experience-header">
-                <div class="experience-title-group">
-                  <h3 class="experience-role">Information Systems Student & Researcher</h3>
-                  <div class="experience-company-row">
-                    <span class="experience-company">UPN "Veteran" Jawa Timur</span>
-                    <span class="experience-dot">•</span>
-                    <span>Surabaya, INA</span>
+                <!-- Sub-role 2 -->
+                <div class="experience-nested-item">
+                  <div class="experience-header">
+                    <div class="experience-title-group">
+                      <h4 class="experience-sub-role">Jr. Digital Strategist</h4>
+                      <div class="experience-company-row">
+                        <span>Surabaya dan Sekitarnya, Jawa Timur, Indonesia</span>
+                      </div>
+                    </div>
+                    <span class="experience-date">Sep 2018 – Oct 2019 · 1 yr 2 mos</span>
+                  </div>
+                  <p class="experience-desc">Developed digital strategy frameworks, set up initial WordPress layouts, and administered client social media platforms to grow brand presence.</p>
+                  <div class="experience-tags">
+                    <span class="tag">WordPress</span>
+                    <span class="tag">Social Media Management</span>
                   </div>
                 </div>
-                <span class="experience-date">Aug 2018 – Oct 2022</span>
-              </div>
-              <p class="experience-desc">Graduated with a Bachelor of Computer Science in Information Systems. Completed thesis research on in-app purchase motivations using Expectation-Confirmation Models (ECM), and co-authored academic research on executive livestock stock information systems.</p>
-              <div class="experience-tags">
-                <span class="tag">Information Systems</span>
-                <span class="tag">Data Analysis</span>
-                <span class="tag">UX Research</span>
-                <span class="tag">Academic Writing</span>
+
               </div>
             </div>
 
