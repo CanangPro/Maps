@@ -18,6 +18,9 @@ import (
 //go:embed templates/*
 var templatesFS embed.FS
 
+//go:embed static/*
+var staticFS embed.FS
+
 type SteamRecommendation struct {
 	AppID       string `json:"appId"`
 	Title       string `json:"title"`
@@ -287,7 +290,7 @@ func main() {
 		}
 	})
 
-	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	http.Handle("/static/", http.FileServer(http.FS(staticFS)))
 
 	port := os.Getenv("PORT")
 	if port == "" {
