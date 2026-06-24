@@ -287,6 +287,8 @@ func main() {
 		}
 	})
 
+	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
