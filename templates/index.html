@@ -727,6 +727,111 @@
       }
     }
 
+    /* Experience section */
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+
+    .experience-item {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.015);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 0.25s ease,
+                  border-color 0.25s ease,
+                  box-shadow 0.25s ease;
+    }
+
+    .experience-item:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.035);
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .experience-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .experience-title-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .experience-role {
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .experience-company-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--muted-foreground);
+    }
+
+    .experience-company {
+      color: var(--foreground);
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .experience-company:hover {
+      color: #ffffff;
+    }
+
+    .experience-dot {
+      color: rgba(255, 255, 255, 0.15);
+    }
+
+    .experience-date {
+      font-size: 0.75rem;
+      color: var(--muted-foreground);
+      font-family: monospace;
+      padding: 0.25rem 0.625rem;
+      background: var(--secondary);
+      border-radius: 0.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      white-space: nowrap;
+    }
+
+    .experience-desc {
+      font-size: 0.875rem;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.6;
+    }
+
+    .experience-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 640px) {
+      .experience-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      .experience-date {
+        align-self: flex-start;
+      }
+    }
+
     /* Moments section */
     .moments-grid {
       display: grid;
@@ -968,6 +1073,120 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Experience Collapsible Section -->
+    <div class="section-card open" id="sec-experience">
+      <button class="section-header" onclick="toggleSection('sec-experience')">
+        <div class="section-title-area">
+          <div class="section-icon-wrapper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="8.5" cy="7" r="4"></circle>
+              <polyline points="17 11 19 13 23 9"></polyline>
+            </svg>
+          </div>
+          <h2 class="section-title">My Experience</h2>
+        </div>
+        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </button>
+      <div class="section-content-wrapper">
+        <div class="section-content">
+          <div class="experience-list">
+            
+            <!-- Experience 1 -->
+            <div class="experience-item">
+              <div class="experience-header">
+                <div class="experience-title-group">
+                  <h3 class="experience-role">Freelance Product Designer & Developer</h3>
+                  <div class="experience-company-row">
+                    <span class="experience-company">Self-Employed</span>
+                    <span class="experience-dot">•</span>
+                    <span>Surabaya, INA (Remote)</span>
+                  </div>
+                </div>
+                <span class="experience-date">Oct 2022 – Present</span>
+              </div>
+              <p class="experience-desc">Designing and building high-end minimalist web applications and brand campaigns for diverse clients. Creating end-to-end user experiences, responsive CSS layouts, and custom backend integrations in Go.</p>
+              <div class="experience-tags">
+                <span class="tag">UI/UX Design</span>
+                <span class="tag">Web Development</span>
+                <span class="tag">HTML/CSS</span>
+                <span class="tag">JavaScript</span>
+                <span class="tag">Go</span>
+              </div>
+            </div>
+
+            <!-- Experience 2 -->
+            <div class="experience-item">
+              <div class="experience-header">
+                <div class="experience-title-group">
+                  <h3 class="experience-role">Web Developer Intern</h3>
+                  <div class="experience-company-row">
+                    <a href="https://kinetic.id" target="_blank" rel="noopener noreferrer" class="experience-company">PT Kinetic Digital Indonesia</a>
+                    <span class="experience-dot">•</span>
+                    <span>Surabaya, INA</span>
+                  </div>
+                </div>
+                <span class="experience-date">Jul 2022 – Oct 2022</span>
+              </div>
+              <p class="experience-desc">Collaborated in designing and developing responsive web interfaces using WordPress and custom front-end setups for agency clients. Participated in team workshops focused on digital marketing campaigns, content strategy, and SEO optimization.</p>
+              <div class="experience-tags">
+                <span class="tag">WordPress</span>
+                <span class="tag">Web Design</span>
+                <span class="tag">PHP</span>
+                <span class="tag">HTML/CSS</span>
+                <span class="tag">Teamwork</span>
+              </div>
+            </div>
+
+            <!-- Experience 3 -->
+            <div class="experience-item">
+              <div class="experience-header">
+                <div class="experience-title-group">
+                  <h3 class="experience-role">East Java Media Contributor</h3>
+                  <div class="experience-company-row">
+                    <a href="https://risamedia.com" target="_blank" rel="noopener noreferrer" class="experience-company">Risa Media</a>
+                    <span class="experience-dot">•</span>
+                    <span>Surabaya, INA</span>
+                  </div>
+                </div>
+                <span class="experience-date">Dec 2018 – Sep 2022</span>
+              </div>
+              <p class="experience-desc">Served as a regional contributor covering pop culture, Japanese cultural festivals (Japanese World Unair, Creators Super Fest), and creative industries in East Java. Produced event reviews, news coverage, and multimedia content.</p>
+              <div class="experience-tags">
+                <span class="tag">Content Writing</span>
+                <span class="tag">Event Coverage</span>
+                <span class="tag">Creative Media</span>
+                <span class="tag">Photography</span>
+              </div>
+            </div>
+
+            <!-- Experience 4 -->
+            <div class="experience-item">
+              <div class="experience-header">
+                <div class="experience-title-group">
+                  <h3 class="experience-role">Information Systems Student & Researcher</h3>
+                  <div class="experience-company-row">
+                    <span class="experience-company">UPN "Veteran" Jawa Timur</span>
+                    <span class="experience-dot">•</span>
+                    <span>Surabaya, INA</span>
+                  </div>
+                </div>
+                <span class="experience-date">Aug 2018 – Oct 2022</span>
+              </div>
+              <p class="experience-desc">Graduated with a Bachelor of Computer Science in Information Systems. Completed thesis research on in-app purchase motivations using Expectation-Confirmation Models (ECM), and co-authored academic research on executive livestock stock information systems.</p>
+              <div class="experience-tags">
+                <span class="tag">Information Systems</span>
+                <span class="tag">Data Analysis</span>
+                <span class="tag">UX Research</span>
+                <span class="tag">Academic Writing</span>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
